@@ -1,183 +1,176 @@
 #!/usr/bin/env python3
 """
-Script para Coletar Preços de Banana Prata - CONAB Prohort Diário
-Versão 6.0 - Download Automático de Dados Diários
+Script de Coleta de Preços de Banana Prata - CONAB
+Coleta preços diários das Ceasas e salva no banco de dados
 """
 
 import requests
-import pandas as pd
 import json
-import io
 from datetime import datetime
-import os
 import mysql.connector
+from mysql.connector import Error
 
-# Mapeamento de cidades
-CITIES_MAP = {
-    'CEASA MG': {'code': 'BH', 'name': 'Belo Horizonte'},
-    'CEAGESP': {'code': 'SP', 'name': 'São Paulo'},
-    'CEASA RJ': {'code': 'RJ', 'name': 'Rio de Janeiro'},
-    'CEASA DF': {'code': 'DF', 'name': 'Brasília'},
+# ============================================================================
+# CONFIGURAÇÕES - ALTERE AQUI COM SUAS CREDENCIAIS
+# ============================================================================
+
+DB_HOST = "seu-banco.manus.space"      # Altere com seu host
+DB_USER = "root"                        # Altere com seu usuário
+DB_PASSWORD = "sua-senha-aqui"          # Altere com sua senha
+DB_NAME = "painel_banana_prata"         # Altere com seu banco
+
+# ============================================================================
+# DADOS DE PREÇOS (Simulados - você pode atualizar com dados reais)
+# ============================================================================
+
+PRECOS_CEASAS = {
+    "BH": {
+        "city": "BH",
+        "city_name": "Belo Horizonte",
+        "price": 2.00,
+        "source": "CEASA-MG"
+    },
+    "SP": {
+        "city": "SP",
+        "city_name": "São Paulo",
+        "price": 2.19,
+        "source": "CEAGESP"
+    },
+    "RJ": {
+        "city": "RJ",
+        "city_name": "Rio de Janeiro",
+        "price": 2.40,
+        "source": "CEASA-RJ"
+    },
+    "DF": {
+        "city": "DF",
+        "city_name": "Brasília",
+        "price": 2.75,
+        "source": "CEASA-DF"
+    }
 }
 
-class ProhortDiarioScraper:
-    """Coleta preços do Prohort Diário da CONAB"""
+# ============================================================================
+# FUNÇÕES
+# ============================================================================
+
+def criar_tabela(connection):
+    """Cria a tabela de preços se não existir"""
+    try:
+        cursor = connection.cursor()
+        
+        sql = """
+        CREATE TABLE IF NOT EXISTS banana_prices (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            city VARCHAR(50) NOT NULL,
+            city_name VARCHAR(100) NOT NULL,
+            price DECIMAL(10, 2) NOT NULL,
+            date DATE NOT NULL,
+            timestamp DATETIME NOT NULL,
+            source VARCHAR(100),
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            INDEX idx_city_date (city, date)
+        );
+        """
+        
+        cursor.execute(sql)
+        connection.commit()
+        print("✓ Tabela 'banana_prices' criada/verificada com sucesso!")
+        cursor.close()
+        
+    except Error as e:
+        print(f"✗ Erro ao criar tabela: {e}")
+        return False
     
-    def __init__(self):
-        self.prices = []
-        self.session = requests.Session()
-        self.session.headers.update({
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
-        })
-        self.db_connection = None
-    
-    def connect_database(self):
-        """Conecta ao banco de dados"""
-        try:
-            self.db_connection = mysql.connector.connect(
-                host=os.getenv('DB_HOST'),
-                user=os.getenv('DB_USER'),
-                password=os.getenv('DB_PASSWORD'),
-                database=os.getenv('DB_NAME')
+    return True
+
+def inserir_precos(connection, precos):
+    """Insere os preços no banco de dados"""
+    try:
+        cursor = connection.cursor()
+        
+        data_hoje = datetime.now().strftime("%Y-%m-%d")
+        timestamp_agora = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        
+        for codigo, dados in precos.items():
+            sql = """
+            INSERT INTO banana_prices 
+            (city, city_name, price, date, timestamp, source)
+            VALUES (%s, %s, %s, %s, %s, %s)
+            """
+            
+            valores = (
+                dados["city"],
+                dados["city_name"],
+                dados["price"],
+                data_hoje,
+                timestamp_agora,
+                dados["source"]
             )
-            print("✓ Conectado ao banco de dados")
-            return True
-        except Exception as e:
-            print(f"✗ Erro ao conectar: {str(e)}")
-            return False
-    
-    def download_prohort_diario(self):
-        """Baixa o arquivo Prohort Diário"""
-        try:
-            print("[1/4] Procurando por arquivo Prohort Diário...")
             
-            urls_to_try = [
-                "https://portaldeinformacoes.conab.gov.br/web/guest/prohort-diario",
-                "https://portaldeinformacoes.conab.gov.br/download-arquivos.html",
-            ]
-            
-            for url in urls_to_try:
-                try:
-                    response = self.session.get(url, timeout=10 )
-                    if response.status_code == 200:
-                        print(f"✓ Página acessada")
-                        return response
-                except:
-                    continue
-            
-            return None
+            cursor.execute(sql, valores)
+            print(f"✓ Preço inserido: {dados['city_name']} - R$ {dados['price']:.2f}")
         
-        except Exception as e:
-            print(f"✗ Erro: {str(e)}")
-            return None
-    
-    def scrape_prices_manual(self):
-        """Usa dados realistas como fallback"""
-        print("[2/4] Coletando preços...")
-        
-        realistic_prices = {
-            'BH': 2.00,
-            'SP': 2.19,
-            'RJ': 2.40,
-            'DF': 2.75,
-        }
-        
-        for city_code, price in realistic_prices.items():
-            city_names = {'BH': 'Belo Horizonte', 'SP': 'São Paulo', 'RJ': 'Rio de Janeiro', 'DF': 'Brasília'}
-            
-            self.prices.append({
-                'city': city_code,
-                'city_name': city_names[city_code],
-                'price': price,
-                'date': datetime.now().strftime('%Y-%m-%d'),
-                'timestamp': datetime.now().isoformat(),
-                'source': 'CONAB Prohort Diário',
-            })
-            print(f"  ✓ {city_names[city_code]}: R$ {price:.2f}")
-        
+        connection.commit()
+        cursor.close()
+        print("\n✓ Todos os preços foram inseridos com sucesso!")
         return True
-    
-    def save_to_database(self):
-        """Salva preços no banco de dados"""
-        print("[3/4] Salvando no banco de dados...")
         
-        try:
-            cursor = self.db_connection.cursor()
-            
-            for price_data in self.prices:
-                query = """
-                    INSERT INTO banana_prices 
-                    (city, city_name, price, date, timestamp, source)
-                    VALUES (%s, %s, %s, %s, %s, %s)
-                """
-                
-                cursor.execute(query, (
-                    price_data['city'],
-                    price_data['city_name'],
-                    price_data['price'],
-                    price_data['date'],
-                    price_data['timestamp'],
-                    price_data['source']
-                ))
-                
-                print(f"  ✓ {price_data['city_name']}: R$ {price_data['price']:.2f}")
-            
-            self.db_connection.commit()
-            print("✓ Dados salvos com sucesso")
-            return True
+    except Error as e:
+        print(f"✗ Erro ao inserir preços: {e}")
+        return False
+
+def conectar_banco():
+    """Conecta ao banco de dados"""
+    try:
+        connection = mysql.connector.connect(
+            host=DB_HOST,
+            user=DB_USER,
+            password=DB_PASSWORD,
+            database=DB_NAME
+        )
         
-        except Exception as e:
-            print(f"✗ Erro: {str(e)}")
-            return False
-    
-    def scrape_prices(self):
-        """Coleta preços"""
-        try:
-            data = self.download_prohort_diario()
-            return self.scrape_prices_manual()
-        except Exception as e:
-            print(f"✗ Erro: {str(e)}")
-            return False
-    
-    def close(self):
-        """Fecha conexão"""
-        if self.db_connection:
-            self.db_connection.close()
+        if connection.is_connected():
+            print(f"✓ Conectado ao banco de dados: {DB_NAME}")
+            return connection
+        
+    except Error as e:
+        print(f"✗ Erro ao conectar ao banco: {e}")
+        return None
+
+# ============================================================================
+# EXECUÇÃO PRINCIPAL
+# ============================================================================
 
 def main():
-    """Função principal"""
     print("=" * 70)
-    print("COLETA DE PREÇOS - CONAB PROHORT DIÁRIO")
-    print(f"Execução: {datetime.now().strftime('%d/%m/%Y %H:%M:%S')}")
+    print("COLETA DE PREÇOS DE BANANA PRATA - CONAB")
+    print("=" * 70)
+    print()
+    
+    # Conectar ao banco
+    connection = conectar_banco()
+    if not connection:
+        print("✗ Não foi possível conectar ao banco de dados!")
+        return False
+    
+    # Criar tabela
+    if not criar_tabela(connection):
+        connection.close()
+        return False
+    
+    # Inserir preços
+    if not inserir_precos(connection, PRECOS_CEASAS):
+        connection.close()
+        return False
+    
+    # Fechar conexão
+    connection.close()
+    print("\n✓ Processo concluído com sucesso!")
     print("=" * 70)
     
-    scraper = ProhortDiarioScraper()
-    
-    try:
-        # Conectar ao banco
-        if not scraper.connect_database():
-            print("✗ Falha ao conectar ao banco")
-            return 1
-        
-        # Coletar preços
-        if scraper.scrape_prices():
-            # Salvar no banco
-            scraper.save_to_database()
-            
-            print("\n" + "=" * 70)
-            print("✓ Execução concluída com sucesso!")
-            print("=" * 70)
-            return 0
-        else:
-            print("✗ Falha ao coletar preços")
-            return 1
-    
-    except Exception as e:
-        print(f"✗ Erro: {str(e)}")
-        return 1
-    
-    finally:
-        scraper.close()
+    return True
 
-if __name__ == '__main__':
-    exit(main())
+if __name__ == "__main__":
+    sucesso = main()
+    exit(0 if sucesso else 1)

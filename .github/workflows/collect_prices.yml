@@ -2,11 +2,7 @@ name: Coleta Diária de Preços de Banana
 
 on:
   schedule:
-    # Executa todos os dias às 18:00 (horário UTC)
-    # Para alterar o horário, mude os números: minuto hora dia mês dia_da_semana
     - cron: '0 18 * * *'
-  
-  # Permite executar manualmente no GitHub
   workflow_dispatch:
 
 jobs:
@@ -33,14 +29,12 @@ jobs:
           DB_USER: ${{ secrets.DB_USER }}
           DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
           DB_NAME: ${{ secrets.DB_NAME }}
-        run: |
-          python scripts/scrape_prices_prohort_diario.py
+        run: python scripts/scrape_prices_prohort_diario.py
       
       - name: Registrar sucesso
         if: success()
-        run: echo "✓ Coleta de preços concluída com sucesso!"
+        run: echo "Coleta de preços concluída com sucesso"
       
       - name: Registrar erro
         if: failure()
-        run: echo "✗ Erro na coleta de preços. Verifique os logs."
-Como Construir Painel de Preços de Banana Prata Atualizados - Manus
+        run: echo "Erro na coleta de preços"

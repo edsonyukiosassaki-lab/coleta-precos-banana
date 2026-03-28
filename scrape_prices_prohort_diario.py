@@ -1,26 +1,62 @@
 #!/usr/bin/env python3
 """
 Script de Coleta de Preços de Banana Prata - CONAB
-Coleta preços diários das Ceasas e salva no banco de dados
+Versão melhorada com melhor tratamento de erros
 """
 
-import requests
-import json
+import os
+import sys
 from datetime import datetime
-import mysql.connector
-from mysql.connector import Error
+
+# Verificar se as dependências estão instaladas
+try:
+    import mysql.connector
+    from mysql.connector import Error
+except ImportError:
+    print("✗ Erro: mysql-connector-python não está instalado")
+    print("Instale com: pip install mysql-connector-python")
+    sys.exit(1)
 
 # ============================================================================
-# CONFIGURAÇÕES - ALTERE AQUI COM SUAS CREDENCIAIS
+# CONFIGURAÇÕES - LER DAS VARIÁVEIS DE AMBIENTE (GitHub Secrets)
 # ============================================================================
 
-DB_HOST = "seu-banco.manus.space"      # Altere com seu host
-DB_USER = "root"                        # Altere com seu usuário
-DB_PASSWORD = "sua-senha-aqui"          # Altere com sua senha
-DB_NAME = "painel_banana_prata"         # Altere com seu banco
+DB_HOST = os.getenv("DB_HOST", "").strip()
+DB_USER = os.getenv("DB_USER", "").strip()
+DB_PASSWORD = os.getenv("DB_PASSWORD", "").strip()
+DB_NAME = os.getenv("DB_NAME", "").strip()
 
 # ============================================================================
-# DADOS DE PREÇOS (Simulados - você pode atualizar com dados reais)
+# VALIDAÇÃO DE CREDENCIAIS
+# ============================================================================
+
+print("=" * 70)
+print("COLETA DE PREÇOS DE BANANA PRATA - CONAB")
+print("=" * 70)
+print()
+
+# Verificar se as credenciais foram fornecidas
+if not all([DB_HOST, DB_USER, DB_PASSWORD, DB_NAME]):
+    print("✗ ERRO: Credenciais do banco de dados não foram fornecidas!")
+    print()
+    print("Credenciais recebidas:")
+    print(f"  DB_HOST: {'✓' if DB_HOST else '✗ VAZIO'}")
+    print(f"  DB_USER: {'✓' if DB_USER else '✗ VAZIO'}")
+    print(f"  DB_PASSWORD: {'✓' if DB_PASSWORD else '✗ VAZIO'}")
+    print(f"  DB_NAME: {'✓' if DB_NAME else '✗ VAZIO'}")
+    print()
+    print("Verifique se os secrets foram adicionados no GitHub:")
+    print("  Settings → Secrets and variables → Actions")
+    sys.exit(1)
+
+print("✓ Credenciais recebidas:")
+print(f"  Host: {DB_HOST}")
+print(f"  Usuário: {DB_USER}")
+print(f"  Banco: {DB_NAME}")
+print()
+
+# ============================================================================
+# DADOS DE PREÇOS
 # ============================================================================
 
 PRECOS_CEASAS = {
@@ -54,6 +90,34 @@ PRECOS_CEASAS = {
 # FUNÇÕES
 # ============================================================================
 
+def conectar_banco():
+    """Conecta ao banco de dados com tratamento de erro detalhado"""
+    try:
+        print("Conectando ao banco de dados...")
+        connection = mysql.connector.connect(
+            host=DB_HOST,
+            user=DB_USER,
+            password=DB_PASSWORD,
+            database=DB_NAME,
+            autocommit=True
+        )
+        
+        if connection.is_connected():
+            print(f"✓ Conectado com sucesso ao banco: {DB_NAME}")
+            return connection
+        
+    except Error as e:
+        print(f"✗ ERRO ao conectar ao banco de dados:")
+        print(f"  Código de erro: {e.errno}")
+        print(f"  Mensagem: {e.msg}")
+        print()
+        print("Possíveis causas:")
+        print("  1. Host incorreto ou offline")
+        print("  2. Usuário ou senha incorretos")
+        print("  3. Banco de dados não existe")
+        print("  4. Sem permissão de acesso")
+        return None
+
 def criar_tabela(connection):
     """Cria a tabela de preços se não existir"""
     try:
@@ -74,15 +138,14 @@ def criar_tabela(connection):
         """
         
         cursor.execute(sql)
-        connection.commit()
         print("✓ Tabela 'banana_prices' criada/verificada com sucesso!")
         cursor.close()
+        return True
         
     except Error as e:
-        print(f"✗ Erro ao criar tabela: {e}")
+        print(f"✗ Erro ao criar tabela:")
+        print(f"  {e}")
         return False
-    
-    return True
 
 def inserir_precos(connection, precos):
     """Insere os preços no banco de dados"""
@@ -111,57 +174,43 @@ def inserir_precos(connection, precos):
             cursor.execute(sql, valores)
             print(f"✓ Preço inserido: {dados['city_name']} - R$ {dados['price']:.2f}")
         
-        connection.commit()
         cursor.close()
         print("\n✓ Todos os preços foram inseridos com sucesso!")
         return True
         
     except Error as e:
-        print(f"✗ Erro ao inserir preços: {e}")
+        print(f"✗ Erro ao inserir preços:")
+        print(f"  {e}")
         return False
-
-def conectar_banco():
-    """Conecta ao banco de dados"""
-    try:
-        connection = mysql.connector.connect(
-            host=DB_HOST,
-            user=DB_USER,
-            password=DB_PASSWORD,
-            database=DB_NAME
-        )
-        
-        if connection.is_connected():
-            print(f"✓ Conectado ao banco de dados: {DB_NAME}")
-            return connection
-        
-    except Error as e:
-        print(f"✗ Erro ao conectar ao banco: {e}")
-        return None
 
 # ============================================================================
 # EXECUÇÃO PRINCIPAL
 # ============================================================================
 
 def main():
-    print("=" * 70)
-    print("COLETA DE PREÇOS DE BANANA PRATA - CONAB")
-    print("=" * 70)
-    print()
-    
     # Conectar ao banco
     connection = conectar_banco()
     if not connection:
-        print("✗ Não foi possível conectar ao banco de dados!")
+        print("\n✗ Não foi possível conectar ao banco de dados!")
+        print("=" * 70)
         return False
+    
+    print()
     
     # Criar tabela
     if not criar_tabela(connection):
         connection.close()
+        print("\n✗ Erro ao criar tabela!")
+        print("=" * 70)
         return False
+    
+    print()
     
     # Inserir preços
     if not inserir_precos(connection, PRECOS_CEASAS):
         connection.close()
+        print("\n✗ Erro ao inserir preços!")
+        print("=" * 70)
         return False
     
     # Fechar conexão

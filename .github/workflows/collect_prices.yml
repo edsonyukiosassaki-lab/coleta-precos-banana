@@ -23,13 +23,25 @@ jobs:
           python -m pip install --upgrade pip
           pip install mysql-connector-python requests beautifulsoup4
       
+      - name: Listar arquivos para debug
+        run: find . -name "scrape_prices_prohort_diario.py" -type f
+      
       - name: Executar script de coleta
         env:
           DB_HOST: ${{ secrets.DB_HOST }}
           DB_USER: ${{ secrets.DB_USER }}
           DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
           DB_NAME: ${{ secrets.DB_NAME }}
-        run: python ./scripts/scrape_prices_prohort_diario.py
+        run: |
+          if [ -f "./scripts/scrape_prices_prohort_diario.py" ]; then
+            python ./scripts/scrape_prices_prohort_diario.py
+          elif [ -f "scripts/scrape_prices_prohort_diario.py" ]; then
+            python scripts/scrape_prices_prohort_diario.py
+          else
+            echo "Arquivo não encontrado!"
+            find . -name "*.py" -type f
+            exit 1
+          fi
       
       - name: Registrar sucesso
         if: success()

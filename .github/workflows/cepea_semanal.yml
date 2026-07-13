@@ -26,7 +26,7 @@ jobs:
           playwright install --with-deps chromium
 
       - name: Coletar tabela do HF Brasil
-        run: python coletar_cepea_banana.py
+        run: xvfb-run -a python coletar_cepea_banana.py
 
       - name: Commitar cotações novas
         run: |

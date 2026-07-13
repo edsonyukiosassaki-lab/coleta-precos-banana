@@ -1,0 +1,41 @@
+name: CEPEA — série semanal de banana
+
+on:
+  schedule:
+    - cron: '47 12 * * 1'  # segunda 12:47 UTC = 09:47 BRT (antes do boletim das 10:17; CEPEA publica na sexta)
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  coletar:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout do repositório
+        uses: actions/checkout@v4
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Instalar Playwright
+        run: |
+          pip install playwright
+          playwright install --with-deps chromium
+
+      - name: Coletar tabela do HF Brasil
+        run: python coletar_cepea_banana.py
+
+      - name: Commitar cotações novas
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add cepea_banana_semanal.csv
+          if git diff --cached --quiet; then
+            echo "Nada novo para commitar."
+          else
+            git commit -m "Automated update: cotações semanais Hortifruti/Cepea"
+            git push
+          fi

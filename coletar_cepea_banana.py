@@ -35,10 +35,25 @@ def data_iso(rotulo, hoje):
 
 def extrair_tabela():
     with sync_playwright() as p:
-        browser = p.chromium.launch()
-        page = browser.new_page()
-        page.goto(URL, wait_until="domcontentloaded", timeout=60000)
-        page.wait_for_selector("table tr", timeout=30000)
+        browser = p.chromium.launch(
+            headless=False,  # headful sob xvfb: menos sinais de automação p/ o WAF
+            args=["--disable-blink-features=AutomationControlled"],
+        )
+        ctx = browser.new_context(
+            user_agent=("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+                        "(KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36"),
+            locale="pt-BR",
+            viewport={"width": 1366, "height": 768},
+        )
+        page = ctx.new_page()
+        resp = page.goto(URL, wait_until="domcontentloaded", timeout=60000)
+        print(f"HTTP {resp.status if resp else '?'} | título: {page.title()!r}")
+        try:
+            page.wait_for_selector("table tr", timeout=45000)
+        except Exception:
+            corpo = page.content()
+            print(f"Tabela não apareceu. Primeiros 400 chars do HTML:\n{corpo[:400]}")
+            raise
         linhas = page.eval_on_selector_all(
             "table:first-of-type tr",
             "trs => trs.map(tr => [...tr.querySelectorAll('th,td')].map(c => c.textContent.trim()))",

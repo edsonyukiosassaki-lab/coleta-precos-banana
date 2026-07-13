@@ -2,7 +2,7 @@ name: CEPEA — série semanal de banana
 
 on:
   schedule:
-    - cron: '47 12 * * 1'  # segunda 12:47 UTC = 09:47 BRT (antes do boletim das 10:17; CEPEA publica na sexta)
+    - cron: '23 12 * * 6'  # sábado 12:23 UTC = 09:23 BRT (CEPEA publica na sexta; folga de 2 dias antes do boletim de segunda)
   workflow_dispatch:
 
 permissions:

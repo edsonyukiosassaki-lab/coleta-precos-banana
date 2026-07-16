@@ -120,10 +120,15 @@ def coletar():
         try:
             resp = requests.get(url, headers=HEADERS, timeout=120)
             resp.raise_for_status()
-            n = 0
+            # buffer local: o arquivo só entra no consolidado se parsear INTEIRO —
+            # exceção no meio (download truncado/zip corrompido) deixaria datas
+            # parciais subcontadas no CSV sem nenhum alerta
+            regs_arquivo = defaultdict(list)
             for reg in iterar_linhas_excel(resp.content, url):
-                por_arquivo_data[(i, reg[0])].append(reg[1:])
-                n += 1
+                regs_arquivo[reg[0]].append(reg[1:])
+            for data, regs in regs_arquivo.items():
+                por_arquivo_data[(i, data)].extend(regs)
+            n = sum(len(r) for r in regs_arquivo.values())
             print(f"  ok: {url.rsplit('/', 3)[-3]}/{url.rsplit('/', 1)[-1]} — {n} registros")
         except Exception as e:  # noqa: BLE001 — arquivo individual não derruba a coleta
             falhas += 1
@@ -151,20 +156,29 @@ def coletar():
                 municipios[(data, "destino", destino)] += t
         diario[data] = d
 
-    # mescla com CSVs existentes: dados novos prevalecem; datas antigas são preservadas
+    # mescla com CSVs existentes SEM regredir dado bom: a coleta nova só substitui
+    # a linha de uma data se tiver PELO MENOS os mesmos registros (ptvs) — um
+    # arquivo que sumiu da listagem ou falhou no download não pode apagar uma
+    # versão mais completa gravada em execução anterior
     existentes_diario = {}
     if CSV_DIARIO.exists():
         with open(CSV_DIARIO, newline="", encoding="utf-8") as f:
             for row in csv.DictReader(f):
                 existentes_diario[row["data"]] = row
-    datas_novas = set(diario)
+    datas_vencedor_novo = set()
+    for data, d in diario.items():
+        antiga = existentes_diario.get(data)
+        if antiga is None or d["ptvs"] >= int(antiga["ptvs"]):
+            datas_vencedor_novo.add(data)
+        else:
+            print(f"  mantendo versão existente de {data}: {antiga['ptvs']} regs > {d['ptvs']} da coleta nova")
 
     with open(CSV_DIARIO, "w", newline="", encoding="utf-8") as f:
         w = csv.writer(f)
         w.writerow(["data", "ptvs", "total_t", "prata_t", "nanica_t", "outras_t"])
-        todas = sorted(set(existentes_diario) | datas_novas)
+        todas = sorted(set(existentes_diario) | set(diario))
         for data in todas:
-            if data in diario:
+            if data in datas_vencedor_novo:
                 d = diario[data]
                 w.writerow([data, d["ptvs"], round(d["total"], 3), round(d["prata"], 3),
                             round(d["nanica"], 3), round(d["outras"], 3)])
@@ -172,10 +186,12 @@ def coletar():
                 e = existentes_diario[data]
                 w.writerow([data, e["ptvs"], e["total_t"], e["prata_t"], e["nanica_t"], e["outras_t"]])
 
+    # municípios seguem o MESMO vencedor por data (diário e municípios têm que ser coerentes)
     existentes_mun = []
     if CSV_MUNICIPIOS.exists():
         with open(CSV_MUNICIPIOS, newline="", encoding="utf-8") as f:
-            existentes_mun = [row for row in csv.DictReader(f) if row["data"] not in datas_novas]
+            existentes_mun = [row for row in csv.DictReader(f)
+                              if row["data"] not in datas_vencedor_novo]
 
     with open(CSV_MUNICIPIOS, "w", newline="", encoding="utf-8") as f:
         w = csv.writer(f)
@@ -183,7 +199,8 @@ def coletar():
         for e in sorted(existentes_mun, key=lambda r: (r["data"], r["papel"], r["municipio"])):
             w.writerow([e["data"], e["papel"], e["municipio"], e["toneladas"]])
         for (data, papel, municipio) in sorted(municipios):
-            w.writerow([data, papel, municipio, round(municipios[(data, papel, municipio)], 3)])
+            if data in datas_vencedor_novo:
+                w.writerow([data, papel, municipio, round(municipios[(data, papel, municipio)], 3)])
 
     datas = sorted(set(existentes_diario) | datas_novas)
     print(f"\nSérie diária: {datas[0]} a {datas[-1]} ({len(datas)} dias).")

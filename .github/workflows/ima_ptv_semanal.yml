@@ -37,3 +37,12 @@ jobs:
             git commit -m "Automated update: embarques de banana (PTV IMA-MG)"
             git push
           fi
+
+      - name: Issue em caso de falha
+        if: failure()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh issue create -R "$GITHUB_REPOSITORY" \
+            --title "Coleta IMA-MG (embarques) FALHOU ($(date +%d/%m/%Y))" \
+            --body "$(printf 'A coleta de PTVs de banana do IMA-MG falhou. O boletim de segunda usa fallback dos últimos 7 dias, então não quebra — mas os dados param de atualizar.\n\n**O que fazer (nesta ordem):**\n1. Actions → **ima_ptv_semanal** → Run workflow (rerodar resolve a maioria).\n2. Se falhar de novo, o site do IMA pode estar fora do ar — espere 1h e rerode.\n3. Persistindo, acione o Claude com o link desta Issue.\n\nLogs: %s/%s/actions/runs/%s' "$GITHUB_SERVER_URL" "$GITHUB_REPOSITORY" "$GITHUB_RUN_ID")"

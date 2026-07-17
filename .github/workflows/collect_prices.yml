@@ -47,6 +47,13 @@ jobs:
         if: success()
         run: echo "Coleta de preços concluída com sucesso"
       
-      - name: Registrar erro
+      - name: Issue em caso de falha
         if: failure()
-        run: echo "Erro na coleta de preços"
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          EXISTE=$(gh issue list -R "$GITHUB_REPOSITORY" --state open --search "Coleta de preços (Agrolink/CEASA) FALHOU" --json number -q 'length')
+          if [ "$EXISTE" != "0" ]; then echo "Issue de falha já aberta — não duplicar."; exit 0; fi
+          gh issue create -R "$GITHUB_REPOSITORY" \
+            --title "Coleta de preços (Agrolink/CEASA) FALHOU ($(date +%d/%m/%Y))" \
+            --body "$(printf 'A coleta diária de preços falhou — o boletim usa a última série disponível.\n\n**O que fazer (nesta ordem):**\n1. Actions → **collect_prices** → Run workflow (rerodar resolve a maioria).\n2. Se falhar de novo, a fonte pode estar fora do ar — espere 1h e rerode.\n3. Persistindo, acione o Claude com o link desta Issue.\n\nLogs: %s/%s/actions/runs/%s' "$GITHUB_SERVER_URL" "$GITHUB_REPOSITORY" "$GITHUB_RUN_ID")"

@@ -2,51 +2,45 @@ name: Coleta Diária de Preços de Banana
 
 on:
   schedule:
-    - cron: '0 18 * * *'
+    - cron: '0 18 * * *'    # diária 15:00 BRT
+    - cron: '17 12 * * 1'   # segunda 09:17 BRT — 1h antes do boletim semanal (13:17 UTC)
   workflow_dispatch:
+
+permissions:
+  contents: write
+  issues: write
 
 jobs:
   collect_prices:
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout do repositório
         uses: actions/checkout@v4
-      
+
       - name: Configurar Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      
+
       - name: Instalar dependências
+        run: pip install requests
+
+      - name: Coletar preços no Agrolink
+        run: python scripts/coletar_precos_agrolink.py
+
+      - name: Commit do CSV do dia
         run: |
-          python -m pip install --upgrade pip
-          pip install mysql-connector-python requests beautifulsoup4
-      
-      - name: Listar arquivos para debug
-        run: find . -name "scrape_prices_prohort_diario.py" -type f
-      
-      - name: Executar script de coleta
-        env:
-          DB_HOST: ${{ secrets.DB_HOST }}
-          DB_USER: ${{ secrets.DB_USER }}
-          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-          DB_NAME: ${{ secrets.DB_NAME }}
-        run: |
-          if [ -f "./scripts/scrape_prices_prohort_diario.py" ]; then
-            python ./scripts/scrape_prices_prohort_diario.py
-          elif [ -f "scripts/scrape_prices_prohort_diario.py" ]; then
-            python scripts/scrape_prices_prohort_diario.py
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add precos_banana_prata_*.csv
+          if git diff --cached --quiet; then
+            echo "Nada novo para commitar."
           else
-            echo "Arquivo não encontrado!"
-            find . -name "*.py" -type f
-            exit 1
+            git commit -m "coleta: preços Agrolink $(date +%F)"
+            git push
           fi
-      
-      - name: Registrar sucesso
-        if: success()
-        run: echo "Coleta de preços concluída com sucesso"
-      
+
       - name: Issue em caso de falha
         if: failure()
         env:
@@ -56,4 +50,4 @@ jobs:
           if [ "$EXISTE" != "0" ]; then echo "Issue de falha já aberta — não duplicar."; exit 0; fi
           gh issue create -R "$GITHUB_REPOSITORY" \
             --title "Coleta de preços (Agrolink/CEASA) FALHOU ($(date +%d/%m/%Y))" \
-            --body "$(printf 'A coleta diária de preços falhou — o boletim usa a última série disponível.\n\n**O que fazer (nesta ordem):**\n1. Actions → **collect_prices** → Run workflow (rerodar resolve a maioria).\n2. Se falhar de novo, a fonte pode estar fora do ar — espere 1h e rerode.\n3. Persistindo, acione o Claude com o link desta Issue.\n\nLogs: %s/%s/actions/runs/%s' "$GITHUB_SERVER_URL" "$GITHUB_REPOSITORY" "$GITHUB_RUN_ID")"
+            --body "$(printf 'A coleta diária de preços falhou — o boletim usa a última série disponível.\n\n**O que fazer (nesta ordem):**\n1. Actions → **collect_prices** → Run workflow (rerodar resolve a maioria).\n2. Se falhar de novo, a fonte pode estar fora do ar — espere 1h e rerode.\n3. Se o log citar GUARDRAIL (preços congelados ou poucas praças), NÃO rerode à força: acione o Claude com o link desta Issue.\n\nLogs: %s/%s/actions/runs/%s' "$GITHUB_SERVER_URL" "$GITHUB_REPOSITORY" "$GITHUB_RUN_ID")"

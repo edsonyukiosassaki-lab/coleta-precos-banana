@@ -38,6 +38,7 @@ jobs:
             echo "Nada novo para commitar."
           else
             git commit -m "coleta: preços Agrolink $(date +%F)"
+            git pull --rebase origin main
             git push
           fi
 

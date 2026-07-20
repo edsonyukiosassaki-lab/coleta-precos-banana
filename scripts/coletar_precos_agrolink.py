@@ -89,16 +89,19 @@ def extrair_prata(html: str) -> list[tuple[str, float, date]]:
 
 def coletar(hoje: date) -> list[dict]:
     sessao = requests.Session()
+    limite = hoje - timedelta(days=DIAS_FRESCO)
     mais_recente: dict[str, tuple[float, date]] = {}
     for pagina in range(1, MAX_PAGINAS + 1):
         for praca, preco, dt in extrair_prata(baixar_pagina(sessao, pagina)):
             if praca not in mais_recente or dt > mais_recente[praca][1]:
                 mais_recente[praca] = (preco, dt)
-        pendentes = [n for chave, n in PRIORIDADE[:N_PRACAS] if chave not in mais_recente]
-        if not pendentes:
+        # para cedo só quando N_PRACAS prioritárias já têm cotação FRESCA — se a
+        # praça veio com data velha, uma reserva em página posterior ainda entra
+        frescas = sum(1 for chave, _ in PRIORIDADE
+                      if chave in mais_recente and mais_recente[chave][1] >= limite)
+        if frescas >= N_PRACAS:
             break
 
-    limite = hoje - timedelta(days=DIAS_FRESCO)
     escolhidas = []
     for chave, nome in PRIORIDADE:
         if chave not in mais_recente:

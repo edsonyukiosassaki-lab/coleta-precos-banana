@@ -202,7 +202,7 @@ def coletar():
             if data in datas_vencedor_novo:
                 w.writerow([data, papel, municipio, round(municipios[(data, papel, municipio)], 3)])
 
-    datas = sorted(set(existentes_diario) | datas_novas)
+    datas = todas
     print(f"\nSérie diária: {datas[0]} a {datas[-1]} ({len(datas)} dias).")
 
     # guarda de obsolescência

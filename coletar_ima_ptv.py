@@ -203,9 +203,9 @@ def coletar():
                 d["cfo_ptvs"] += 1
                 d["cfo_total"] += t
                 d["cfo_" + grupo] += t
-            municipios[(data, "origem", origem, documento)] += t
+            municipios[(data, "origem", origem, documento, grupo)] += t
             if destino:
-                municipios[(data, "destino", destino, documento)] += t
+                municipios[(data, "destino", destino, documento, grupo)] += t
         diario[data] = d
 
     # mescla com CSVs existentes SEM regredir dado bom: a coleta nova só substitui
@@ -256,15 +256,16 @@ def coletar():
 
     with open(CSV_MUNICIPIOS, "w", newline="", encoding="utf-8") as f:
         w = csv.writer(f)
-        # "documento" por ÚLTIMO: o boletim em produção lê as 4 primeiras por posição
-        w.writerow(["data", "papel", "municipio", "toneladas", "documento"])
+        # colunas novas por ÚLTIMO: leitura posicional antiga das 4 primeiras continua válida
+        w.writerow(["data", "papel", "municipio", "toneladas", "documento", "grupo"])
         for e in sorted(existentes_mun, key=lambda r: (r["data"], r["papel"], r["municipio"])):
             w.writerow([e["data"], e["papel"], e["municipio"], e["toneladas"],
-                        e.get("documento") or ""])
-        for (data, papel, municipio, documento) in sorted(municipios):
+                        e.get("documento") or "", e.get("grupo") or ""])
+        for (data, papel, municipio, documento, grupo) in sorted(municipios):
             if data in datas_vencedor_novo:
                 w.writerow([data, papel, municipio,
-                            round(municipios[(data, papel, municipio, documento)], 3), documento])
+                            round(municipios[(data, papel, municipio, documento, grupo)], 3),
+                            documento, grupo])
 
     datas = todas
     print(f"\nSérie diária: {datas[0]} a {datas[-1]} ({len(datas)} dias).")

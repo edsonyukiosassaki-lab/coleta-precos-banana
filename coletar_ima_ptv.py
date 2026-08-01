@@ -89,6 +89,12 @@ def _mapear_cabecalho(linhas_iniciais):
                     mapa[campo] = j
                     break
         if len(mapa) == len(CAMPOS_CABECALHO):
+            # tp_documento_fundamento (CFO=origem produtora, CFOC=consolidado/reembarque,
+            # PTV=retransito) existe SÓ no layout novo — opcional, não invalida o cabeçalho
+            for j, cel in enumerate(celulas):
+                if "documento" in cel:
+                    mapa["documento"] = j
+                    break
             return i, mapa
     return None, None
 
@@ -138,7 +144,9 @@ def iterar_linhas_excel(conteudo, url):
         data_iso = str(data_s)[:10]
         if not re.match(r"^\d{4}-\d{2}-\d{2}$", data_iso):
             continue
-        yield data_iso, str(origem).strip(), str(row[mapa["destino"]] or "").strip(), row[mapa["variedade"]], toneladas
+        documento = str(row[mapa["documento"]] or "").strip().lower() if "documento" in mapa else ""
+        yield (data_iso, str(origem).strip(), str(row[mapa["destino"]] or "").strip(),
+               row[mapa["variedade"]], toneladas, documento)
 
 
 def coletar():
@@ -179,16 +187,25 @@ def coletar():
             melhor[data] = i
 
     diario = {}
-    municipios = defaultdict(float)  # (data, papel, municipio) -> t
+    municipios = defaultdict(float)  # (data, papel, municipio, documento) -> t
     for data, i in melhor.items():
-        d = {"ptvs": 0, "total": 0.0, "prata": 0.0, "nanica": 0.0, "outras": 0.0}
-        for origem, destino, variedade, t in por_arquivo_data[(i, data)]:
+        d = {"ptvs": 0, "total": 0.0, "prata": 0.0, "nanica": 0.0, "outras": 0.0,
+             "cfo_ptvs": 0, "cfo_total": 0.0, "cfo_prata": 0.0, "cfo_nanica": 0.0,
+             "cfo_outras": 0.0, "tem_documento": False}
+        for origem, destino, variedade, t, documento in por_arquivo_data[(i, data)]:
+            grupo = grupo_variedade(variedade)
             d["ptvs"] += 1
             d["total"] += t
-            d[grupo_variedade(variedade)] += t
-            municipios[(data, "origem", origem)] += t
+            d[grupo] += t
+            if documento:
+                d["tem_documento"] = True
+            if documento == "cfo":
+                d["cfo_ptvs"] += 1
+                d["cfo_total"] += t
+                d["cfo_" + grupo] += t
+            municipios[(data, "origem", origem, documento)] += t
             if destino:
-                municipios[(data, "destino", destino)] += t
+                municipios[(data, "destino", destino, documento)] += t
         diario[data] = d
 
     # mescla com CSVs existentes SEM regredir dado bom: a coleta nova só substitui
@@ -210,16 +227,25 @@ def coletar():
 
     with open(CSV_DIARIO, "w", newline="", encoding="utf-8") as f:
         w = csv.writer(f)
-        w.writerow(["data", "ptvs", "total_t", "prata_t", "nanica_t", "outras_t"])
+        w.writerow(["data", "ptvs", "total_t", "prata_t", "nanica_t", "outras_t",
+                    "cfo_ptvs", "cfo_total_t", "cfo_prata_t", "cfo_nanica_t", "cfo_outras_t"])
         todas = sorted(set(existentes_diario) | set(diario))
         for data in todas:
             if data in datas_vencedor_novo:
                 d = diario[data]
+                # layout antigo não tem a coluna de documento — cfo_* fica VAZIO
+                # (desconhecido), nunca 0, que seria um zero real
+                cfo = ([d["cfo_ptvs"], round(d["cfo_total"], 3), round(d["cfo_prata"], 3),
+                        round(d["cfo_nanica"], 3), round(d["cfo_outras"], 3)]
+                       if d["tem_documento"] else ["", "", "", "", ""])
                 w.writerow([data, d["ptvs"], round(d["total"], 3), round(d["prata"], 3),
-                            round(d["nanica"], 3), round(d["outras"], 3)])
+                            round(d["nanica"], 3), round(d["outras"], 3), *cfo])
             else:
                 e = existentes_diario[data]
-                w.writerow([data, e["ptvs"], e["total_t"], e["prata_t"], e["nanica_t"], e["outras_t"]])
+                w.writerow([data, e["ptvs"], e["total_t"], e["prata_t"], e["nanica_t"], e["outras_t"],
+                            e.get("cfo_ptvs") or "", e.get("cfo_total_t") or "",
+                            e.get("cfo_prata_t") or "", e.get("cfo_nanica_t") or "",
+                            e.get("cfo_outras_t") or ""])
 
     # municípios seguem o MESMO vencedor por data (diário e municípios têm que ser coerentes)
     existentes_mun = []
@@ -230,12 +256,15 @@ def coletar():
 
     with open(CSV_MUNICIPIOS, "w", newline="", encoding="utf-8") as f:
         w = csv.writer(f)
-        w.writerow(["data", "papel", "municipio", "toneladas"])
+        # "documento" por ÚLTIMO: o boletim em produção lê as 4 primeiras por posição
+        w.writerow(["data", "papel", "municipio", "toneladas", "documento"])
         for e in sorted(existentes_mun, key=lambda r: (r["data"], r["papel"], r["municipio"])):
-            w.writerow([e["data"], e["papel"], e["municipio"], e["toneladas"]])
-        for (data, papel, municipio) in sorted(municipios):
+            w.writerow([e["data"], e["papel"], e["municipio"], e["toneladas"],
+                        e.get("documento") or ""])
+        for (data, papel, municipio, documento) in sorted(municipios):
             if data in datas_vencedor_novo:
-                w.writerow([data, papel, municipio, round(municipios[(data, papel, municipio)], 3)])
+                w.writerow([data, papel, municipio,
+                            round(municipios[(data, papel, municipio, documento)], 3), documento])
 
     datas = todas
     print(f"\nSérie diária: {datas[0]} a {datas[-1]} ({len(datas)} dias).")

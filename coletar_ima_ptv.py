@@ -64,46 +64,81 @@ def listar_urls_planilhas():
     return unicos
 
 
+# O IMA já publicou 2 layouts: cabeçalho na linha 1 ("Data de Emissão da PTV",
+# 9 colunas) e, do arquivo de 20-22/07/2026 em diante, linha de TÍTULO antes do
+# cabeçalho ("dt_emissao", 10 colunas — entrou tp_documento_fundamento na 2ª).
+# Por isso as colunas são localizadas pelo NOME, nunca pela posição.
+CAMPOS_CABECALHO = {
+    "data": lambda c: "emiss" in c,
+    "origem": lambda c: "origem" in c and "cod" not in c,
+    "destino": lambda c: "destino" in c and "cod" not in c,
+    "variedade": lambda c: "variedade" in c,
+    "carga": lambda c: "carga" in c,
+    "unidade": lambda c: "unidade" in c,
+}
+
+
+def _mapear_cabecalho(linhas_iniciais):
+    """Acha a linha de cabeçalho nas primeiras linhas e devolve (indice, {campo: coluna})."""
+    for i, row in enumerate(linhas_iniciais):
+        celulas = [str(c).strip().lower() if c is not None else "" for c in row]
+        mapa = {}
+        for campo, reconhece in CAMPOS_CABECALHO.items():
+            for j, cel in enumerate(celulas):
+                if cel and reconhece(cel):
+                    mapa[campo] = j
+                    break
+        if len(mapa) == len(CAMPOS_CABECALHO):
+            return i, mapa
+    return None, None
+
+
 def iterar_linhas_excel(conteudo, url):
     """Gera tuplas (data_iso, origem, destino, variedade, toneladas) de um xlsx/xls."""
+    conv_data = None
     if url.lower().endswith(".xls"):
         import xlrd
         book = xlrd.open_workbook(file_contents=conteudo)
         sheet = book.sheet_by_index(0)
+        linhas = [tuple(sheet.row_values(i)) for i in range(sheet.nrows)]
 
-        def _linhas_xls():
-            for i in range(1, sheet.nrows):
-                row = list(sheet.row_values(i))
-                # datas em .xls vêm como número serial do Excel
-                if row and isinstance(row[0], float):
-                    row[0] = xlrd.xldate_as_datetime(row[0], book.datemode)
-                yield tuple(row)
-
-        linhas = _linhas_xls()
+        def conv_data(v):
+            # datas em .xls vêm como número serial do Excel
+            return xlrd.xldate_as_datetime(v, book.datemode) if isinstance(v, float) else v
     else:
         import openpyxl
         wb = openpyxl.load_workbook(io.BytesIO(conteudo), read_only=True, data_only=True)
         ws = wb[wb.sheetnames[0]]
-        linhas = ws.iter_rows(min_row=2, values_only=True)
+        linhas = list(ws.iter_rows(values_only=True))
 
-    for row in linhas:
-        if len(row) < 9:
+    idx_cab, mapa = _mapear_cabecalho(linhas[:5])
+    if mapa is None:
+        # FALHA visível no log da coleta (o chamador trata) — nunca "0 registros" mudo
+        raise ValueError("cabeçalho não reconhecido — o IMA mudou o layout de novo?")
+
+    ultima_col = max(mapa.values())
+    for row in linhas[idx_cab + 1:]:
+        if len(row) <= ultima_col:
             continue
-        data_s, _cod_o, origem, _cod_d, destino, _cultura, variedade, carga, unidade = row[:9]
+        data_s = row[mapa["data"]]
+        origem = row[mapa["origem"]]
+        unidade = row[mapa["unidade"]]
         if not data_s or not origem:
             continue
         if not (unidade and "TONELADA" in str(unidade).upper()):
             continue
         try:
-            toneladas = float(carga)
+            toneladas = float(row[mapa["carga"]])
         except (TypeError, ValueError):
             continue
         if toneladas <= 0 or toneladas > MAX_T_POR_REGISTRO:
             continue
+        if conv_data:
+            data_s = conv_data(data_s)
         data_iso = str(data_s)[:10]
         if not re.match(r"^\d{4}-\d{2}-\d{2}$", data_iso):
             continue
-        yield data_iso, str(origem).strip(), str(destino or "").strip(), variedade, toneladas
+        yield data_iso, str(origem).strip(), str(row[mapa["destino"]] or "").strip(), row[mapa["variedade"]], toneladas
 
 
 def coletar():

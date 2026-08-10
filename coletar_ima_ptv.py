@@ -22,6 +22,7 @@ import datetime
 import io
 import re
 import sys
+import time
 from collections import defaultdict
 from pathlib import Path
 
@@ -41,6 +42,58 @@ CAVENDISH = {"NANICA", "CATURRA", "WILLIAMS", "GRANDE NAINE", "NANICÃO", "VALER
 
 HEADERS = {"User-Agent": "Mozilla/5.0 (coleta-precos-banana; uso interno de produtor rural)"}
 
+# O servidor do IMA é lento e intermitente: a página de listagem leva ~15 s para
+# responder e às vezes nem completa o handshake. Em 10/08/2026 UM ConnectTimeout
+# na listagem derrubou a coleta inteira (exit 1, zero dado) e o boletim daquela
+# manhã saiu sem as cenas de embarques — justamente no dia em que o IMA publicou
+# o arquivo de 02-09/08. O download de cada planilha já tolerava falha individual;
+# a listagem não tolerava nada, e era o ponto onde a perda é total.
+# Timeout é (conexão, leitura): conectar é rápido ou não vai conectar — esperar
+# 60 s pelo handshake só atrasava a desistência; ler é que demora.
+TIMEOUT_LISTAGEM = (15, 90)
+TIMEOUT_PLANILHA = (15, 120)
+TENTATIVAS_LISTAGEM = 4   # pior caso ~95 s: 4×15 s de conexão + 5+10+20 s de espera
+TENTATIVAS_PLANILHA = 3
+ESPERA_BASE_S = 5
+# Teto do tempo gasto baixando planilhas. Sem ele, 34 planilhas × 3 tentativas ×
+# 120 s de leitura passariam de 3 h com o IMA lento — o retry consertaria a falha
+# e criaria uma pendura. A página lista da MAIS NOVA para a mais antiga, então
+# estourar o teto derruba as antigas, que já estão no CSV e não regridem.
+ORCAMENTO_DOWNLOAD_S = 12 * 60
+
+
+def _vale_repetir(erro):
+    """4xx (menos 429) é resposta definitiva do servidor: insistir só gasta tempo."""
+    resp = getattr(erro, "response", None)
+    if resp is None:
+        return True   # erro de rede: timeout, conexão recusada, DNS
+    return resp.status_code == 429 or not 400 <= resp.status_code < 500
+
+
+def get_com_retry(url, timeout, tentativas, dormir=None):
+    """GET que repete com espera crescente em erro de rede ou 5xx.
+
+    Repete o que costuma passar na segunda tentativa (timeout de conexão/leitura,
+    conexão recusada, 5xx, 429). Erro que não melhora com insistência — 404 de
+    planilha que saiu do ar, por exemplo — sobe na primeira e não gasta o teto.
+    """
+    dormir = dormir or time.sleep
+    ultimo_erro = None
+    for tentativa in range(1, tentativas + 1):
+        try:
+            resp = requests.get(url, headers=HEADERS, timeout=timeout)
+            resp.raise_for_status()
+            return resp
+        except requests.RequestException as e:
+            ultimo_erro = e
+            if not _vale_repetir(e) or tentativa == tentativas:
+                break
+            espera = ESPERA_BASE_S * 2 ** (tentativa - 1)
+            print(f"  tentativa {tentativa}/{tentativas} falhou "
+                  f"({type(e).__name__}) — repetindo em {espera}s")
+            dormir(espera)
+    raise ultimo_erro
+
 
 def grupo_variedade(variedade):
     v = (variedade or "").strip().upper()
@@ -52,8 +105,7 @@ def grupo_variedade(variedade):
 
 
 def listar_urls_planilhas():
-    resp = requests.get(PAGINA_LISTAGEM, headers=HEADERS, timeout=60)
-    resp.raise_for_status()
+    resp = get_com_retry(PAGINA_LISTAGEM, TIMEOUT_LISTAGEM, TENTATIVAS_LISTAGEM)
     urls = re.findall(r'href="(https?://[^"]+\.xlsx?)"', resp.text)
     # preserva ordem, remove duplicatas (cada link aparece 2x na página)
     vistos, unicos = set(), []
@@ -159,10 +211,17 @@ def coletar():
     # (indice_arquivo, data) -> lista de registros
     por_arquivo_data = defaultdict(list)
     falhas = 0
+    tentados = 0
+    inicio = time.monotonic()
     for i, url in enumerate(urls):
+        if time.monotonic() - inicio > ORCAMENTO_DOWNLOAD_S:
+            print(f"  TETO DE {ORCAMENTO_DOWNLOAD_S // 60} MIN ESTOURADO — "
+                  f"{len(urls) - i} planilha(s) mais antiga(s) ficaram de fora desta "
+                  f"rodada; as datas delas seguem com o valor já gravado no CSV.")
+            break
+        tentados += 1
         try:
-            resp = requests.get(url, headers=HEADERS, timeout=120)
-            resp.raise_for_status()
+            resp = get_com_retry(url, TIMEOUT_PLANILHA, TENTATIVAS_PLANILHA)
             # buffer local: o arquivo só entra no consolidado se parsear INTEIRO —
             # exceção no meio (download truncado/zip corrompido) deixaria datas
             # parciais subcontadas no CSV sem nenhum alerta
@@ -176,7 +235,7 @@ def coletar():
         except Exception as e:  # noqa: BLE001 — arquivo individual não derruba a coleta
             falhas += 1
             print(f"  FALHA em {url}: {e}")
-    if falhas == len(urls):
+    if tentados and falhas == tentados:
         print("ERRO: todas as planilhas falharam.")
         return 1
 

@@ -12,6 +12,9 @@ permissions:
 jobs:
   coletar:
     runs-on: ubuntu-latest
+    # Teto duro acima do orçamento de 12 min do download: o site do IMA é lento e
+    # já deixou um job pendurado por mais de 35 min em 10/08/2026.
+    timeout-minutes: 25
     steps:
       - name: Checkout do repositório
         uses: actions/checkout@v4
@@ -23,6 +26,9 @@ jobs:
 
       - name: Instalar dependências
         run: pip install requests openpyxl xlrd
+
+      - name: Testes (resiliência de rede — não acessa a internet)
+        run: python -m unittest test_coletar_ima_ptv -v
 
       - name: Coletar planilhas de PTV do IMA-MG
         run: python coletar_ima_ptv.py

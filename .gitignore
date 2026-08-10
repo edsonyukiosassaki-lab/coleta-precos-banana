@@ -1,0 +1,4 @@
+__pycache__/
+*.pyc
+# aviso transitório: o workflow lê e transforma em issue, nunca versionado
+mudanca_fonte.txt

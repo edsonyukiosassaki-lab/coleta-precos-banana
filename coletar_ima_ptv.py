@@ -20,6 +20,7 @@ em janeiro/2027 será preciso apontar PAGINA_LISTAGEM para a página do novo ano
 import csv
 import datetime
 import io
+import json
 import re
 import sys
 import time
@@ -31,6 +32,10 @@ import requests
 PAGINA_LISTAGEM = "https://www.ima.mg.gov.br/14-transparencia/2599-permissao-de-transito-vegetal-banana-2026"
 CSV_DIARIO = Path(__file__).parent / "ima_ptv_banana_diario.csv"
 CSV_MUNICIPIOS = Path(__file__).parent / "ima_ptv_banana_municipios.csv"
+# formato da fonte visto na última rodada — sem carimbo de tempo de propósito,
+# para o arquivo só mudar quando o IMA muda, e não a cada execução
+ESTADO_FONTE = Path(__file__).parent / "ima_fonte_estado.json"
+AVISO_MUDANCA = Path(__file__).parent / "mudanca_fonte.txt"
 LIMITE_OBSOLESCENCIA_DIAS = 21
 # Maior carga rodoviária plausível por registro (bitrem ~37 t). Acima disso é erro de
 # digitação na fonte (kg no campo de toneladas — ex.: 24.450 "t" em 28/04/2026).
@@ -116,10 +121,19 @@ def listar_urls_planilhas():
     return unicos
 
 
-# O IMA já publicou 2 layouts: cabeçalho na linha 1 ("Data de Emissão da PTV",
-# 9 colunas) e, do arquivo de 20-22/07/2026 em diante, linha de TÍTULO antes do
-# cabeçalho ("dt_emissao", 10 colunas — entrou tp_documento_fundamento na 2ª).
-# Por isso as colunas são localizadas pelo NOME, nunca pela posição.
+# ---------------------------------------------------------------------------
+# Identificação de coluna
+#
+# O IMA já publicou 3 formas: cabeçalho na linha 1 ("Data de Emissão da PTV",
+# 9 colunas); de 20-22/07/2026 em diante uma linha de TÍTULO antes do cabeçalho
+# ("dt_emissao", 10 colunas, com tp_documento_fundamento); e em 02-09/08/2026 a
+# VOLTA ao formato antigo. Formato velho ressuscita — nunca remover suporte.
+#
+# Ordem: NOME primeiro (barato e provado nas 3 formas); o que o nome não achar,
+# procura pela ASSINATURA DO CONTEÚDO, que sobrevive a renomeação de coluna.
+# Exceção deliberada: origem e destino NUNCA saem de palpite — as duas são nome
+# de município e trocá-las inverteria o ranking inteiro em silêncio. Só entram
+# por nome ou com prova no código IBGE (a origem de uma PTV mineira é ~100% MG).
 CAMPOS_CABECALHO = {
     "data": lambda c: "emiss" in c,
     "origem": lambda c: "origem" in c and "cod" not in c,
@@ -129,30 +143,141 @@ CAMPOS_CABECALHO = {
     "unidade": lambda c: "unidade" in c,
 }
 
-
-def _mapear_cabecalho(linhas_iniciais):
-    """Acha a linha de cabeçalho nas primeiras linhas e devolve (indice, {campo: coluna})."""
-    for i, row in enumerate(linhas_iniciais):
-        celulas = [str(c).strip().lower() if c is not None else "" for c in row]
-        mapa = {}
-        for campo, reconhece in CAMPOS_CABECALHO.items():
-            for j, cel in enumerate(celulas):
-                if cel and reconhece(cel):
-                    mapa[campo] = j
-                    break
-        if len(mapa) == len(CAMPOS_CABECALHO):
-            # tp_documento_fundamento (CFO=origem produtora, CFOC=consolidado/reembarque,
-            # PTV=retransito) existe SÓ no layout novo — opcional, não invalida o cabeçalho
-            for j, cel in enumerate(celulas):
-                if "documento" in cel:
-                    mapa["documento"] = j
-                    break
-            return i, mapa
-    return None, None
+VARIEDADES_CONHECIDAS = PRATA | CAVENDISH
+DOCUMENTOS_CONHECIDOS = {"cfo", "cfoc", "ptv"}
+UNIDADES_CONHECIDAS = ("TONELADA", "QUILO", "UNIDADE", "DUZIA", "CAIXA", "KG")
+# datas em .xls vêm como serial do Excel; faixa aproximada de 2020 a 2035
+SERIAL_MIN, SERIAL_MAX = 43800.0, 49400.0
 
 
-def iterar_linhas_excel(conteudo, url):
-    """Gera tuplas (data_iso, origem, destino, variedade, toneladas) de um xlsx/xls."""
+def _parece_data(v):
+    if isinstance(v, (datetime.datetime, datetime.date)):
+        return True
+    if isinstance(v, float) and SERIAL_MIN <= v <= SERIAL_MAX:
+        return True
+    return bool(re.match(r"^\d{4}-\d{2}-\d{2}", str(v).strip()))
+
+
+def _num(v):
+    try:
+        return float(str(v).strip().replace(",", "."))
+    except (TypeError, ValueError):
+        return None
+
+
+def _amostra(linhas, col, n=80):
+    vals = []
+    for row in linhas:
+        if len(row) > col and row[col] is not None and str(row[col]).strip():
+            vals.append(row[col])
+            if len(vals) >= n:
+                break
+    return vals
+
+
+def _fracao(vals, teste):
+    return sum(1 for v in vals if teste(v)) / len(vals) if vals else 0.0
+
+
+def _e_codigo_ibge(v):
+    return bool(re.fullmatch(r"\d{7}", str(v).strip().split(".")[0]))
+
+
+# Uma coluna só é reconhecida pelo conteúdo se a assinatura for inequívoca: o
+# código IBGE (7 dígitos) e o serial de data não passam no teste de carga, e a
+# carga não passa no de data.
+ASSINATURAS = {
+    "data": lambda v: _fracao(v, _parece_data) >= 0.9,
+    "documento": lambda v: (len(v) >= 5 and
+                            _fracao(v, lambda x: str(x).strip().lower() in DOCUMENTOS_CONHECIDOS) >= 0.9),
+    # a mesma planilha traz TONELADA(S) e UNIDADES na coluna de unidade
+    "unidade": lambda v: _fracao(v, lambda x: any(u in str(x).upper()
+                                                  for u in UNIDADES_CONHECIDAS)) >= 0.9,
+    "variedade": lambda v: (_fracao(v, lambda x: str(x).strip().upper() in VARIEDADES_CONHECIDAS) >= 0.3
+                            and _fracao(v, lambda x: _num(x) is None) >= 0.9),
+    # numérica e que não seja código IBGE — carga em UNIDADES chega aos milhares,
+    # então limitar pela faixa de tonelada descartaria a coluna certa
+    "carga": lambda v: (_fracao(v, lambda x: _num(x) is not None) >= 0.9
+                        and _fracao(v, _e_codigo_ibge) <= 0.1),
+}
+
+
+def _municipios_por_codigo(dados, ncols):
+    """Colunas de texto precedidas por código IBGE — devolve [(coluna, fração MG)]."""
+    achadas = []
+    for j in range(1, ncols):
+        cod, nome = _amostra(dados, j - 1), _amostra(dados, j)
+        if not cod or not nome:
+            continue
+        if _fracao(cod, _e_codigo_ibge) < 0.9 or _fracao(nome, lambda x: _num(x) is None) < 0.9:
+            continue
+        achadas.append((j, _fracao(cod, lambda x: str(x).strip().startswith("31"))))
+    return achadas
+
+
+def _completar_origem_destino(mapa, metodos, dados, ncols):
+    """Só resolve com PROVA: a coluna quase toda MG é a origem. Empate → não chuta."""
+    cands = _municipios_por_codigo(dados, ncols)
+    if len(cands) != 2:
+        return
+    (ja, mga), (jb, mgb) = cands
+    if mga >= 0.95 and mga - mgb >= 0.10:
+        origem, destino = ja, jb
+    elif mgb >= 0.95 and mgb - mga >= 0.10:
+        origem, destino = jb, ja
+    else:
+        return
+    for campo, col in (("origem", origem), ("destino", destino)):
+        if campo not in mapa:
+            mapa[campo], metodos[campo] = col, "codigo-ibge"
+
+
+def _mapear_colunas(linhas):
+    """Devolve (idx_cabecalho, {campo: coluna} ou None, {campo: metodo}, cabecalho)."""
+    # a primeira linha com cara de dado tem o cabeçalho logo acima — funciona
+    # tanto com linha de título quanto sem, e não depende do texto do cabeçalho
+    idx_dados = next((i for i, row in enumerate(linhas[:8])
+                      if any(_parece_data(c) for c in row if c is not None)), None)
+    if not idx_dados:
+        return None, None, {}, []
+    idx_cab = idx_dados - 1
+    celulas = [str(c).strip().lower() if c is not None else "" for c in linhas[idx_cab]]
+    dados = linhas[idx_dados:]
+    ncols = max([len(celulas)] + [len(r) for r in dados[:20]])
+
+    mapa, metodos = {}, {}
+    for campo, reconhece in CAMPOS_CABECALHO.items():
+        for j, cel in enumerate(celulas):
+            if cel and reconhece(cel):
+                mapa[campo], metodos[campo] = j, "nome"
+                break
+    for j, cel in enumerate(celulas):
+        if "documento" in cel:
+            mapa["documento"], metodos["documento"] = j, "nome"
+            break
+
+    usadas = set(mapa.values())
+    for campo, assina in ASSINATURAS.items():
+        if campo in mapa:
+            continue
+        for j in range(ncols):
+            if j not in usadas and assina(_amostra(dados, j)):
+                mapa[campo], metodos[campo] = j, "conteudo"
+                usadas.add(j)
+                break
+    _completar_origem_destino(mapa, metodos, dados, ncols)
+
+    if any(campo not in mapa for campo in CAMPOS_CABECALHO):
+        return idx_cab, None, metodos, celulas
+    return idx_cab, mapa, metodos, celulas
+
+
+def iterar_linhas_excel(conteudo, url, layout=None):
+    """Gera tuplas (data_iso, origem, destino, variedade, toneladas, documento).
+
+    `layout` (dict opcional) recebe o formato detectado — usado para perceber que
+    a fonte mudou de forma sem precisar que alguém compare planilha na mão.
+    """
     conv_data = None
     if url.lower().endswith(".xls"):
         import xlrd
@@ -169,10 +294,14 @@ def iterar_linhas_excel(conteudo, url):
         ws = wb[wb.sheetnames[0]]
         linhas = list(ws.iter_rows(values_only=True))
 
-    idx_cab, mapa = _mapear_cabecalho(linhas[:5])
+    idx_cab, mapa, metodos, celulas = _mapear_colunas(linhas)
+    if layout is not None:
+        layout.update({"campos": dict(sorted(metodos.items())), "cabecalho": celulas})
     if mapa is None:
         # FALHA visível no log da coleta (o chamador trata) — nunca "0 registros" mudo
-        raise ValueError("cabeçalho não reconhecido — o IMA mudou o layout de novo?")
+        faltando = sorted(c for c in CAMPOS_CABECALHO if c not in metodos)
+        raise ValueError(f"não achei as colunas {faltando} nem pelo nome nem pelo "
+                         f"conteúdo — cabeçalho lido: {celulas}")
 
     ultima_col = max(mapa.values())
     for row in linhas[idx_cab + 1:]:
@@ -201,6 +330,71 @@ def iterar_linhas_excel(conteudo, url):
                row[mapa["variedade"]], toneladas, documento)
 
 
+CONSEQUENCIA = {
+    "documento": ("Sem essa coluna não dá para separar CFO (origem produtora) de CFOC "
+                  "(reembarque de CEASA). No boletim, o volume de embarques continua "
+                  "saindo com rótulo de trânsito total, e o ranking de origem e destino "
+                  "sai do ar — sem ela o ranking apontaria a CEASA como produtor."),
+}
+
+
+def conferir_formato_da_fonte(layout):
+    """Compara o formato do arquivo mais novo com o da rodada anterior.
+
+    Grava o estado e, se mudou, deixa um aviso em disco para o workflow abrir a
+    issue. A coleta NÃO falha por isso: mudança de forma que o coletor absorveu é
+    informação, não erro — o dado já entrou.
+    """
+    if not layout or not layout.get("campos"):
+        return
+    novo = layout["campos"]
+    antigo = None
+    if ESTADO_FONTE.exists():
+        try:
+            antigo = json.loads(ESTADO_FONTE.read_text(encoding="utf-8")).get("campos")
+        except (ValueError, OSError):
+            antigo = None
+    ESTADO_FONTE.write_text(
+        json.dumps({"campos": novo, "cabecalho": layout.get("cabecalho", [])},
+                   ensure_ascii=False, indent=2, sort_keys=True) + "\n",
+        encoding="utf-8")
+
+    if antigo is None:
+        print("  formato da fonte registrado pela 1ª vez — nada a comparar.")
+        return
+    if antigo == novo:
+        print("  formato da fonte: igual ao da rodada anterior.")
+        return
+
+    mudancas, consequencias = [], []
+    for campo in sorted(set(antigo) | set(novo)):
+        a, n = antigo.get(campo), novo.get(campo)
+        if a == n:
+            continue
+        if n is None:
+            mudancas.append(f"- **{campo}**: a coluna SUMIU (vinha sendo achada por {a})")
+        elif a is None:
+            mudancas.append(f"- **{campo}**: a coluna VOLTOU (achada por {n})")
+        else:
+            mudancas.append(f"- **{campo}**: passou a ser achada por {n} (era por {a}) "
+                            f"— sinal de que o IMA renomeou a coluna")
+        if campo in CONSEQUENCIA:
+            consequencias.append(CONSEQUENCIA[campo])
+
+    texto = ["O IMA mudou a forma da planilha. **A coleta funcionou e o dado entrou** — "
+             "este aviso é só para você não descobrir isso por acaso.", "", "## O que mudou", ""]
+    texto += mudancas
+    if consequencias:
+        texto += ["", "## O que isso muda no boletim", ""] + [f"{c}" for c in consequencias]
+    texto += ["", "## Cabeçalho lido agora", "", "```", str(layout.get("cabecalho", [])), "```",
+              "", "Nada a fazer se estiver de acordo — feche a issue. O coletor volta a "
+              "avisar sozinho na próxima vez que a forma mudar."]
+    AVISO_MUDANCA.write_text("\n".join(texto), encoding="utf-8")
+    print("  ATENÇÃO: o formato da fonte MUDOU — aviso gravado para virar issue.")
+    for m in mudancas:
+        print(f"    {m}")
+
+
 def coletar():
     urls = listar_urls_planilhas()
     if not urls:
@@ -210,6 +404,7 @@ def coletar():
 
     # (indice_arquivo, data) -> lista de registros
     por_arquivo_data = defaultdict(list)
+    layouts = {}
     falhas = 0
     tentados = 0
     inicio = time.monotonic()
@@ -226,11 +421,18 @@ def coletar():
             # exceção no meio (download truncado/zip corrompido) deixaria datas
             # parciais subcontadas no CSV sem nenhum alerta
             regs_arquivo = defaultdict(list)
-            for reg in iterar_linhas_excel(resp.content, url):
+            layout = {}
+            for reg in iterar_linhas_excel(resp.content, url, layout):
                 regs_arquivo[reg[0]].append(reg[1:])
+            n = sum(len(r) for r in regs_arquivo.values())
+            # planilha de PTV publicada nunca vem vazia: 0 registros com cabeçalho
+            # reconhecido é sintoma de parser errado, não de semana sem embarque
+            # (foi assim que o .xls de 11-13/05 entrou mudo na série)
+            if n == 0:
+                raise ValueError("cabeçalho reconhecido mas 0 registros aproveitados")
             for data, regs in regs_arquivo.items():
                 por_arquivo_data[(i, data)].extend(regs)
-            n = sum(len(r) for r in regs_arquivo.values())
+            layouts[i] = layout
             print(f"  ok: {url.rsplit('/', 3)[-3]}/{url.rsplit('/', 1)[-1]} — {n} registros")
         except Exception as e:  # noqa: BLE001 — arquivo individual não derruba a coleta
             falhas += 1
@@ -238,6 +440,11 @@ def coletar():
     if tentados and falhas == tentados:
         print("ERRO: todas as planilhas falharam.")
         return 1
+
+    # SÓ o arquivo mais novo (índice 0) vale como retrato da fonte — é dele que
+    # sai o dado do boletim de segunda. Comparar com outro daria alarme falso:
+    # planilha velha tem formato velho, e a diferença não seria mudança do IMA.
+    conferir_formato_da_fonte(layouts.get(0))
 
     # para cada data, vale o arquivo com mais registros daquela data
     melhor = {}

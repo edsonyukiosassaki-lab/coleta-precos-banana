@@ -1,0 +1,22 @@
+{
+  "cabecalho": [
+    "data de emissão da ptv",
+    "cod. município origem",
+    "município de origem",
+    "cod. município de destino",
+    "município de destino",
+    "cultura",
+    "variedade",
+    "carga",
+    "unidade de medida",
+    ""
+  ],
+  "campos": {
+    "carga": "nome",
+    "data": "nome",
+    "destino": "nome",
+    "origem": "nome",
+    "unidade": "nome",
+    "variedade": "nome"
+  }
+}

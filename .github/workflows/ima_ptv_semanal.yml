@@ -12,9 +12,11 @@ permissions:
 jobs:
   coletar:
     runs-on: ubuntu-latest
-    # Teto duro acima do orçamento de 12 min do download: o site do IMA é lento e
-    # já deixou um job pendurado por mais de 35 min em 10/08/2026.
-    timeout-minutes: 25
+    # Teto duro acima do pior caso REAL do script: listagem 4×(15s conexão + 90s
+    # leitura) + espera ≈ 7,6 min, e o orçamento de 12 min é conferido ANTES de cada
+    # download, então o último pode começar em 12:00 e levar mais 3×(15+120)+15 ≈ 7 min.
+    # Somando pip install e testes, 25 min matava o job justamente no dia de IMA lento.
+    timeout-minutes: 35
     steps:
       - name: Checkout do repositório
         uses: actions/checkout@v4
@@ -38,6 +40,9 @@ jobs:
       # seguinte segue normalmente com o dado que já entrou.
       - name: Avisar se o IMA mudou o formato
         if: hashFiles('mudanca_fonte.txt') != ''
+        # avisar é importante, mas NUNCA às custas do dado: se abrir a issue falhar
+        # (token, rate limit, issues desabilitadas) o commit adiante tem que acontecer
+        continue-on-error: true
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
@@ -49,7 +54,10 @@ jobs:
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add ima_ptv_banana_diario.csv ima_ptv_banana_municipios.csv ima_fonte_estado.json
+          # -A com pathspec: o estado da fonte não é escrito quando a planilha mais
+          # nova falha, e `git add` num caminho inexistente sai 128 sob `set -e`,
+          # descartando os CSVs que as outras 33 planilhas já atualizaram
+          git add -A -- ima_ptv_banana_diario.csv ima_ptv_banana_municipios.csv ima_fonte_estado.json
           if git diff --cached --quiet; then
             echo "Nada novo para commitar."
           else

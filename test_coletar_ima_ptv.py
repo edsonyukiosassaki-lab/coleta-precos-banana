@@ -189,6 +189,42 @@ class TestFormatosReais(unittest.TestCase):
         self.assertEqual(mapa["origem"], 3)
         self.assertEqual(mapa["destino"], 5)
 
+    def test_linha_vazia_entre_cabecalho_e_dados_nao_derruba(self):
+        """Ancorar o cabeçalho em 'linha acima do 1º dado' quebrava com separador."""
+        vazia = [None] * len(CAB_NOVO)
+        linhas = _linhas(TITULO_NOVO, CAB_NOVO, vazia, LINHA_NOVA, LINHA_NOVA)
+        idx_cab, mapa, metodos, _ = c._mapear_colunas(linhas)
+        self.assertEqual(idx_cab, 1, "tem que achar o cabeçalho por NOME, não por posição")
+        self.assertIsNotNone(mapa)
+        self.assertEqual(mapa["origem"], 3)
+        self.assertEqual(metodos["origem"], "nome")
+
+    def test_planilha_mais_nova_falhando_derruba_a_coleta(self):
+        """Só ela falhar terminava VERDE e o boletim lia número da semana passada."""
+        hoje = datetime.date.today().isoformat()
+        reg = [(hoje, "JAÍBA", "RIO DE JANEIRO", "PRATA ANÃ", 1.0, "cfo")]
+
+        def parse(conteudo, url, layout=None):
+            if url.endswith("nova.xlsx"):
+                raise ValueError("download corrompido")
+            if layout is not None:
+                layout.update({"campos": {"data": "nome"}, "cabecalho": ["x"]})
+            return iter(reg)
+
+        with tempfile.TemporaryDirectory() as tmp:
+            d = pathlib.Path(tmp)
+            with mock.patch.object(c, "CSV_DIARIO", d / "di.csv"), \
+                 mock.patch.object(c, "CSV_MUNICIPIOS", d / "mu.csv"), \
+                 mock.patch.object(c, "ESTADO_FONTE", d / "es.json"), \
+                 mock.patch.object(c, "AVISO_MUDANCA", d / "av.txt"), \
+                 mock.patch.object(c, "listar_urls_planilhas",
+                                   return_value=["https://ima/nova.xlsx", "https://ima/velha.xlsx"]), \
+                 mock.patch.object(c, "get_com_retry", return_value=_resposta_ok()), \
+                 mock.patch.object(c, "iterar_linhas_excel", parse):
+                saida = c.coletar()
+            self.assertEqual(saida, 1, "falha na mais nova tem que abrir issue")
+            self.assertTrue((d / "di.csv").exists(), "o que as outras trouxeram fica gravado")
+
     def test_nao_confunde_codigo_ibge_com_carga(self):
         _, mapa, _, _ = c._mapear_colunas(_linhas(CAB_ANTIGO, *([LINHA_ANTIGA] * 5)))
         self.assertEqual(mapa["carga"], 7, "7 dígitos de código IBGE não é carga")

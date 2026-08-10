@@ -240,7 +240,18 @@ def _mapear_colunas(linhas):
                       if any(_parece_data(c) for c in row if c is not None)), None)
     if not idx_dados:
         return None, None, {}, []
-    idx_cab = idx_dados - 1
+    # a linha logo acima do primeiro dado é o cabeçalho na esmagadora maioria dos
+    # casos, mas uma linha vazia ou mesclada de separação entre cabeçalho e dados
+    # deixaria `celulas` em branco e jogaria TUDO para as assinaturas de conteúdo —
+    # e ali origem/destino se recusam a decidir sem prova de IBGE, derrubando o
+    # arquivo à toa. Por isso procura antes, por nome, nas linhas acima do dado.
+    def _pontua(i):
+        cel = [str(c).strip().lower() if c is not None else "" for c in linhas[i]]
+        return sum(1 for r in CAMPOS_CABECALHO.values()
+                   if any(c and r(c) for c in cel))
+    candidatas = range(max(0, idx_dados - 4), idx_dados)
+    melhor = max(candidatas, key=_pontua, default=idx_dados - 1)
+    idx_cab = melhor if _pontua(melhor) >= 2 else idx_dados - 1
     celulas = [str(c).strip().lower() if c is not None else "" for c in linhas[idx_cab]]
     dados = linhas[idx_dados:]
     ncols = max([len(celulas)] + [len(r) for r in dados[:20]])
@@ -542,6 +553,16 @@ def coletar():
     if idade > LIMITE_OBSOLESCENCIA_DIAS:
         print(f"ERRO: dado mais novo tem {idade} dias (limite {LIMITE_OBSOLESCENCIA_DIAS}). "
               f"Virada de ano? Atualizar PAGINA_LISTAGEM para a página do novo ano.")
+        return 1
+
+    # A planilha MAIS NOVA é de onde sai o dado do boletim de segunda. Se SÓ ela
+    # falhar, tudo o mais entra e o run terminava VERDE — o boletim seguiria lendo
+    # números da semana passada, calado, até a guarda de 10 dias dele estourar.
+    # Fica no FIM de propósito: os CSVs já foram gravados com o que as outras
+    # planilhas trouxeram; o que muda aqui é só o código de saída, que abre a issue.
+    if 0 not in layouts:
+        print("ERRO: a planilha mais nova da página falhou — é dela que sai o dado do "
+              "boletim de segunda. As demais entraram e estão gravadas.")
         return 1
     return 0
 

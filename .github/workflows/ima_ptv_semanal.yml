@@ -2,7 +2,7 @@ name: IMA-MG — PTVs de banana (embarques)
 
 on:
   schedule:
-    - cron: '47 7 * * 1'     # segunda 07:47 UTC = 04:47 BRT — 1h30 antes do boletim (09:17 UTC desde 17/08; Reels no ar até 12:00)
+    - cron: '52 7 * * 1'     # segunda 07:52 UTC = 04:52 BRT — 5 min após collect_prices (mesmo minuto = corrida de git push no mesmo repo); 1h25 antes do boletim (09:17 UTC desde 17/08)
     - cron: '17 12 * * 4'    # quinta 12:17 UTC = 09:17 BRT — pega planilhas atrasadas do IMA
   workflow_dispatch:
 

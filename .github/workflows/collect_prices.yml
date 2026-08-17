@@ -3,7 +3,7 @@ name: Coleta Diária de Preços de Banana
 on:
   schedule:
     - cron: '0 18 * * *'    # diária 15:00 BRT
-    - cron: '17 12 * * 1'   # segunda 09:17 BRT — 1h antes do boletim semanal (13:17 UTC)
+    - cron: '47 7 * * 1'    # segunda 04:47 BRT — 1h30 antes do boletim semanal (09:17 UTC desde 17/08; Reels no ar até 12:00)
   workflow_dispatch:
 
 permissions:

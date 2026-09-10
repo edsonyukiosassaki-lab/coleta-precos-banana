@@ -20648,3 +20648,503 @@ data,papel,municipio,toneladas,documento,grupo
 2026-09-02,origem,VERDELÂNDIA,41.0,,prata
 2026-09-02,origem,VÁRZEA DA PALMA,0.9,,nanica
 2026-09-02,origem,VÁRZEA DA PALMA,3.4,,prata
+2026-09-03,destino,ALMENARA,1.2,,prata
+2026-09-03,destino,ARCOS,32.312,,prata
+2026-09-03,destino,BRASÍLIA,0.3,,nanica
+2026-09-03,destino,BRASÍLIA,0.3,,outras
+2026-09-03,destino,BRASÍLIA,2.61,,prata
+2026-09-03,destino,CACHOEIRA PAULISTA,0.8,,nanica
+2026-09-03,destino,CACHOEIRA PAULISTA,0.8,,prata
+2026-09-03,destino,CAMPINAS,130.346,,nanica
+2026-09-03,destino,CAMPINAS,3.0,,outras
+2026-09-03,destino,CAMPINAS,65.99,,prata
+2026-09-03,destino,CAMPO GRANDE,43.72,,nanica
+2026-09-03,destino,CAMPO GRANDE,1.14,,prata
+2026-09-03,destino,CAPELINHA,11.1,,prata
+2026-09-03,destino,CARATINGA,4.0,,outras
+2026-09-03,destino,CARATINGA,3.0,,prata
+2026-09-03,destino,CARIACICA,5.6,,prata
+2026-09-03,destino,CATALÃO,0.096,,nanica
+2026-09-03,destino,CATALÃO,0.312,,outras
+2026-09-03,destino,CATALÃO,0.432,,prata
+2026-09-03,destino,CONCEIÇÃO DAS PEDRAS,8.9,,prata
+2026-09-03,destino,CONTAGEM,69.52,,nanica
+2026-09-03,destino,CONTAGEM,7.47,,outras
+2026-09-03,destino,CONTAGEM,76.375,,prata
+2026-09-03,destino,CUMARI,0.09,,outras
+2026-09-03,destino,CURITIBA,14.52,,nanica
+2026-09-03,destino,DIADEMA,13.5,,nanica
+2026-09-03,destino,DIVINÓPOLIS,10.5,,prata
+2026-09-03,destino,DOURADOS,23.52,,nanica
+2026-09-03,destino,FOZ DO IGUAÇU,11.438,,prata
+2026-09-03,destino,FRANCA,34.0,,nanica
+2026-09-03,destino,FRANCA,14.6,,prata
+2026-09-03,destino,GUARATINGUETÁ,1.75,,prata
+2026-09-03,destino,GUARULHOS,13.5,,nanica
+2026-09-03,destino,JALES,12.0,,nanica
+2026-09-03,destino,JANAÚBA,58.355,,nanica
+2026-09-03,destino,JANAÚBA,23.4,,prata
+2026-09-03,destino,JUIZ DE FORA,14.8,,nanica
+2026-09-03,destino,JUIZ DE FORA,0.075,,outras
+2026-09-03,destino,JUNDIAÍ,14.0,,nanica
+2026-09-03,destino,JUNDIAÍ,46.5,,prata
+2026-09-03,destino,LAMBARI,3.0,,nanica
+2026-09-03,destino,LAMBARI,1.0,,prata
+2026-09-03,destino,LIMEIRA,8.064,,prata
+2026-09-03,destino,LONDRINA,22.5,,nanica
+2026-09-03,destino,LORENA,1.8,,nanica
+2026-09-03,destino,LORENA,2.3,,prata
+2026-09-03,destino,MARINGÁ,12.0,,prata
+2026-09-03,destino,MATEUS LEME,4.0,,prata
+2026-09-03,destino,MINEIROS DO TIETÊ,4.2,,nanica
+2026-09-03,destino,MINEIROS DO TIETÊ,7.2,,prata
+2026-09-03,destino,MIRACATU,12.6,,prata
+2026-09-03,destino,MONTES CLAROS,66.2,,prata
+2026-09-03,destino,NATÉRCIA,10.0,,nanica
+2026-09-03,destino,NITERÓI,34.0,,prata
+2026-09-03,destino,OSASCO,72.68,,nanica
+2026-09-03,destino,OSASCO,5.46,,outras
+2026-09-03,destino,OSASCO,46.265,,prata
+2026-09-03,destino,PARAIBUNA,16.792,,nanica
+2026-09-03,destino,PARAÍBA DO SUL,0.04,,outras
+2026-09-03,destino,PEDRALVA,15.0,,nanica
+2026-09-03,destino,PETRÓPOLIS,4.0,,nanica
+2026-09-03,destino,PIAU,6.0,,nanica
+2026-09-03,destino,PIAU,2.0,,prata
+2026-09-03,destino,PINDAMONHANGABA,1.0,,nanica
+2026-09-03,destino,PINDAMONHANGABA,1.0,,prata
+2026-09-03,destino,PIRACICABA,19.74,,nanica
+2026-09-03,destino,PIRACICABA,1.5,,outras
+2026-09-03,destino,POTIM,2.0,,nanica
+2026-09-03,destino,POÇOS DE CALDAS,4.5,,prata
+2026-09-03,destino,QUIRINÓPOLIS,0.32,,nanica
+2026-09-03,destino,RIBEIRÃO DAS NEVES,15.0,,nanica
+2026-09-03,destino,RIBEIRÃO DAS NEVES,33.6,,prata
+2026-09-03,destino,RIBEIRÃO PRETO,78.575,,nanica
+2026-09-03,destino,RIBEIRÃO PRETO,10.8,,outras
+2026-09-03,destino,RIO DE JANEIRO,43.0,,nanica
+2026-09-03,destino,RIO DE JANEIRO,213.32,,prata
+2026-09-03,destino,SANTA BÁRBARA D'OESTE,6.6,,nanica
+2026-09-03,destino,SANTA BÁRBARA DO TUGÚRIO,6.0,,prata
+2026-09-03,destino,SANTO ANTÔNIO DO JARDIM,16.9,,nanica
+2026-09-03,destino,SEROPÉDICA,11.0,,prata
+2026-09-03,destino,SÃO BERNARDO DO CAMPO,20.625,,nanica
+2026-09-03,destino,SÃO BERNARDO DO CAMPO,2.1,,outras
+2026-09-03,destino,SÃO BERNARDO DO CAMPO,27.15,,prata
+2026-09-03,destino,SÃO GONÇALO,7.0,,prata
+2026-09-03,destino,SÃO JOSÉ DO RIO PRETO,34.464,,nanica
+2026-09-03,destino,SÃO PAULO,81.265,,nanica
+2026-09-03,destino,SÃO PAULO,103.889,,prata
+2026-09-03,destino,TABOÃO DA SERRA,13.5,,nanica
+2026-09-03,destino,TABOÃO DA SERRA,1.5,,outras
+2026-09-03,destino,TABOÃO DA SERRA,15.0,,prata
+2026-09-03,destino,TAUBATÉ,3.75,,nanica
+2026-09-03,destino,TAUBATÉ,17.77,,prata
+2026-09-03,destino,TRÊS RIOS,4.345,,nanica
+2026-09-03,destino,TRÊS RIOS,0.1,,outras
+2026-09-03,destino,TRÊS RIOS,4.48,,prata
+2026-09-03,destino,UBERLÂNDIA,78.5,,nanica
+2026-09-03,destino,UBERLÂNDIA,39.0,,outras
+2026-09-03,destino,UBERLÂNDIA,92.064,,prata
+2026-09-03,destino,VASSOURAS,0.04,,outras
+2026-09-03,destino,VOLTA REDONDA,2.4,,nanica
+2026-09-03,destino,VOLTA REDONDA,5.6,,prata
+2026-09-03,destino,VOTORANTIM,12.8,,prata
+2026-09-03,destino,VÁRZEA PAULISTA,48.0,,nanica
+2026-09-03,destino,VÁRZEA PAULISTA,16.5,,prata
+2026-09-03,origem,ANDRADAS,4.5,,prata
+2026-09-03,origem,ARAGUARI,12.0,,nanica
+2026-09-03,origem,ARAGUARI,3.0,,outras
+2026-09-03,origem,ARAÇUAÍ,4.0,,nanica
+2026-09-03,origem,ARAÇUAÍ,78.7,,prata
+2026-09-03,origem,ARCOS,9.45,,prata
+2026-09-03,origem,BOCAIÚVA,16.0,,prata
+2026-09-03,origem,BRAZÓPOLIS,21.75,,nanica
+2026-09-03,origem,BRAZÓPOLIS,27.1,,prata
+2026-09-03,origem,CAMPINA VERDE,2.97,,outras
+2026-09-03,origem,CAMPINA VERDE,0.375,,prata
+2026-09-03,origem,CANÁPOLIS,10.8,,outras
+2026-09-03,origem,CAPITÃO ENÉAS,13.76,,nanica
+2026-09-03,origem,CAPITÃO ENÉAS,10.0,,prata
+2026-09-03,origem,CONCEIÇÃO DAS PEDRAS,14.9,,prata
+2026-09-03,origem,CÁSSIA,35.75,,prata
+2026-09-03,origem,DELFINÓPOLIS,23.1,,nanica
+2026-09-03,origem,DELFINÓPOLIS,3.9,,outras
+2026-09-03,origem,DELFINÓPOLIS,185.061,,prata
+2026-09-03,origem,FRANCISCO SÁ,16.5,,nanica
+2026-09-03,origem,FRANCISCO SÁ,10.8,,prata
+2026-09-03,origem,ITACARAMBI,82.885,,nanica
+2026-09-03,origem,ITACARAMBI,1.935,,outras
+2026-09-03,origem,ITACARAMBI,26.93,,prata
+2026-09-03,origem,JANAÚBA,9.0,,nanica
+2026-09-03,origem,JANAÚBA,94.22,,prata
+2026-09-03,origem,JAÍBA,618.235,,nanica
+2026-09-03,origem,JAÍBA,12.6,,outras
+2026-09-03,origem,JAÍBA,119.029,,prata
+2026-09-03,origem,JEQUITINHONHA,32.2,,prata
+2026-09-03,origem,JUIZ DE FORA,0.18,,outras
+2026-09-03,origem,LASSANCE,18.0,,nanica
+2026-09-03,origem,LASSANCE,45.0,,prata
+2026-09-03,origem,MANGA,23.52,,nanica
+2026-09-03,origem,MANHUAÇU,4.0,,outras
+2026-09-03,origem,MANHUAÇU,3.0,,prata
+2026-09-03,origem,MARILAC,15.0,,nanica
+2026-09-03,origem,MARILAC,20.6,,prata
+2026-09-03,origem,MATIAS CARDOSO,21.075,,nanica
+2026-09-03,origem,MONTES CLAROS,25.3,,nanica
+2026-09-03,origem,MONTES CLAROS,38.0,,prata
+2026-09-03,origem,NOVA PORTEIRINHA,28.1,,nanica
+2026-09-03,origem,NOVA PORTEIRINHA,179.25,,prata
+2026-09-03,origem,PEDRALVA,25.0,,nanica
+2026-09-03,origem,PIAU,10.0,,nanica
+2026-09-03,origem,PIAU,2.0,,prata
+2026-09-03,origem,PIRANGUÇU,4.392,,nanica
+2026-09-03,origem,PIRAPORA,9.0,,nanica
+2026-09-03,origem,PIRAPORA,40.512,,prata
+2026-09-03,origem,SABARÁ,10.0,,prata
+2026-09-03,origem,UBERLÂNDIA,57.916,,nanica
+2026-09-03,origem,UBERLÂNDIA,36.402,,outras
+2026-09-03,origem,UBERLÂNDIA,58.332,,prata
+2026-09-03,origem,VERDELÂNDIA,13.5,,nanica
+2026-09-03,origem,VERDELÂNDIA,23.24,,prata
+2026-09-03,origem,VÁRZEA DA PALMA,16.9,,nanica
+2026-09-04,destino,ANDRADAS,15.0,,prata
+2026-09-04,destino,ARAÇATUBA,48.0,,nanica
+2026-09-04,destino,ARCOS,9.45,,prata
+2026-09-04,destino,BARROSO,2.0,,nanica
+2026-09-04,destino,BARROSO,5.0,,prata
+2026-09-04,destino,BARUERI,13.5,,prata
+2026-09-04,destino,BAURU,24.3,,prata
+2026-09-04,destino,BERTÓPOLIS,8.0,,prata
+2026-09-04,destino,BRASÍLIA,3.3,,nanica
+2026-09-04,destino,BRASÍLIA,43.9,,prata
+2026-09-04,destino,BRAZÓPOLIS,0.4,,nanica
+2026-09-04,destino,BRAZÓPOLIS,12.64,,prata
+2026-09-04,destino,CAIEIRAS,12.8,,nanica
+2026-09-04,destino,CAIEIRAS,3.2,,prata
+2026-09-04,destino,CAMPINAS,170.441,,nanica
+2026-09-04,destino,CAMPINAS,4.38,,outras
+2026-09-04,destino,CAMPINAS,77.255,,prata
+2026-09-04,destino,CAMPO GRANDE,65.56,,nanica
+2026-09-04,destino,CAMPOS DO JORDÃO,0.5,,nanica
+2026-09-04,destino,CAMPOS DO JORDÃO,0.5,,prata
+2026-09-04,destino,CARIACICA,10.248,,prata
+2026-09-04,destino,CATALÃO,0.224,,nanica
+2026-09-04,destino,CATALÃO,0.216,,outras
+2026-09-04,destino,CATALÃO,0.192,,prata
+2026-09-04,destino,CHAPADÃO DO CÉU,0.019,,outras
+2026-09-04,destino,CHAPADÃO DO SUL,0.054,,outras
+2026-09-04,destino,CHAPADÃO DO SUL,0.19,,prata
+2026-09-04,destino,CONCEIÇÃO DAS PEDRAS,2.5,,prata
+2026-09-04,destino,CONTAGEM,395.86,,nanica
+2026-09-04,destino,CONTAGEM,11.1,,outras
+2026-09-04,destino,CONTAGEM,375.66,,prata
+2026-09-04,destino,CORONEL PACHECO,3.75,,prata
+2026-09-04,destino,CRISTINA,8.17,,prata
+2026-09-04,destino,CUIABÁ,23.44,,nanica
+2026-09-04,destino,CURITIBA,14.52,,nanica
+2026-09-04,destino,CURVELO,2.5,,nanica
+2026-09-04,destino,CURVELO,2.5,,prata
+2026-09-04,destino,DIADEMA,13.5,,prata
+2026-09-04,destino,DUQUE DE CAXIAS,12.0,,nanica
+2026-09-04,destino,DUQUE DE CAXIAS,10.0,,prata
+2026-09-04,destino,ELDORADO,14.0,,nanica
+2026-09-04,destino,EMBU DAS ARTES,2.066,,prata
+2026-09-04,destino,GOIÂNIA,19.0,,prata
+2026-09-04,destino,GOVERNADOR VALADARES,4.0,,nanica
+2026-09-04,destino,GOVERNADOR VALADARES,4.0,,outras
+2026-09-04,destino,GOVERNADOR VALADARES,4.0,,prata
+2026-09-04,destino,GUARULHOS,29.52,,nanica
+2026-09-04,destino,GUARULHOS,53.76,,prata
+2026-09-04,destino,INDAIATUBA,11.316,,prata
+2026-09-04,destino,INOCÊNCIA,0.076,,nanica
+2026-09-04,destino,INOCÊNCIA,0.036,,outras
+2026-09-04,destino,INOCÊNCIA,0.019,,prata
+2026-09-04,destino,IPAMERI,0.048,,nanica
+2026-09-04,destino,IPAMERI,0.146,,outras
+2026-09-04,destino,IPAMERI,0.032,,prata
+2026-09-04,destino,IPATINGA,10.53,,prata
+2026-09-04,destino,ITAJUBÁ,1.4,,nanica
+2026-09-04,destino,ITAJUBÁ,16.7,,prata
+2026-09-04,destino,ITAPERUNA,0.5,,nanica
+2026-09-04,destino,ITAPERUNA,0.5,,prata
+2026-09-04,destino,ITARIRI,10.785,,nanica
+2026-09-04,destino,ITARIRI,21.0,,prata
+2026-09-04,destino,ITUMBIARA,0.551,,outras
+2026-09-04,destino,ITUMBIARA,0.89,,prata
+2026-09-04,destino,JANAÚBA,84.7,,nanica
+2026-09-04,destino,JANAÚBA,70.9,,prata
+2026-09-04,destino,JAÍBA,23.1,,nanica
+2026-09-04,destino,JORDÂNIA,0.6,,prata
+2026-09-04,destino,JUIZ DE FORA,0.95,,nanica
+2026-09-04,destino,JUIZ DE FORA,4.37,,prata
+2026-09-04,destino,JUNDIAÍ,17.0,,nanica
+2026-09-04,destino,JUNDIAÍ,48.6,,prata
+2026-09-04,destino,LIMEIRA,11.1,,nanica
+2026-09-04,destino,LONDRINA,5.52,,prata
+2026-09-04,destino,LORENA,1.5,,prata
+2026-09-04,destino,LOUVEIRA,8.96,,nanica
+2026-09-04,destino,MARIA DA FÉ,4.08,,prata
+2026-09-04,destino,MARINGÁ,41.3,,nanica
+2026-09-04,destino,MARINGÁ,8.64,,prata
+2026-09-04,destino,MARÍLIA,12.0,,prata
+2026-09-04,destino,MASSARANDUBA,4.1,,nanica
+2026-09-04,destino,MIRACATU,18.0,,nanica
+2026-09-04,destino,MIRACATU,26.6,,prata
+2026-09-04,destino,MONTES CLAROS,3.0,,outras
+2026-09-04,destino,MONTES CLAROS,37.33,,prata
+2026-09-04,destino,NITERÓI,12.0,,nanica
+2026-09-04,destino,NITERÓI,35.0,,prata
+2026-09-04,destino,NOVA PORTEIRINHA,16.0,,prata
+2026-09-04,destino,NOVA UNIÃO,20.0,,prata
+2026-09-04,destino,NOVO HAMBURGO,11.0,,prata
+2026-09-04,destino,NOVO ITACOLOMI,23.54,,nanica
+2026-09-04,destino,NOVO ITACOLOMI,1.5,,prata
+2026-09-04,destino,OSASCO,29.29,,prata
+2026-09-04,destino,PARAIBUNA,21.112,,nanica
+2026-09-04,destino,PARANAÍBA,0.038,,nanica
+2026-09-04,destino,PARAÍSO DAS ÁGUAS,0.095,,nanica
+2026-09-04,destino,PARAÍSO DAS ÁGUAS,0.019,,outras
+2026-09-04,destino,PATOS DE MINAS,4.95,,nanica
+2026-09-04,destino,PATOS DE MINAS,47.0,,outras
+2026-09-04,destino,PATOS DE MINAS,34.1,,prata
+2026-09-04,destino,PEDRALVA,14.22,,nanica
+2026-09-04,destino,PEDRALVA,11.6,,prata
+2026-09-04,destino,PETRÓPOLIS,12.0,,prata
+2026-09-04,destino,PIEDADE DE CARATINGA,11.692,,prata
+2026-09-04,destino,PINDAMONHANGABA,3.0,,prata
+2026-09-04,destino,PIRANGUÇU,4.41,,nanica
+2026-09-04,destino,PIRANGUÇU,4.31,,prata
+2026-09-04,destino,POUSO ALEGRE,2.67,,nanica
+2026-09-04,destino,POUSO ALEGRE,0.735,,outras
+2026-09-04,destino,POUSO ALEGRE,10.53,,prata
+2026-09-04,destino,POÇO FUNDO,4.0,,prata
+2026-09-04,destino,QUIRINÓPOLIS,0.396,,outras
+2026-09-04,destino,QUIRINÓPOLIS,0.284,,prata
+2026-09-04,destino,RIBEIRÃO DAS NEVES,38.31,,nanica
+2026-09-04,destino,RIBEIRÃO DAS NEVES,1.35,,outras
+2026-09-04,destino,RIBEIRÃO DAS NEVES,33.6,,prata
+2026-09-04,destino,RIBEIRÃO PRETO,147.839,,nanica
+2026-09-04,destino,RIBEIRÃO PRETO,2.025,,outras
+2026-09-04,destino,RIBEIRÃO PRETO,31.82,,prata
+2026-09-04,destino,RIO DE JANEIRO,174.54,,nanica
+2026-09-04,destino,RIO DE JANEIRO,0.81,,outras
+2026-09-04,destino,RIO DE JANEIRO,456.38,,prata
+2026-09-04,destino,RIO VERDE,0.277,,outras
+2026-09-04,destino,RIO VERDE,0.178,,prata
+2026-09-04,destino,SANTO ANTÔNIO DO JARDIM,7.38,,prata
+2026-09-04,destino,SAPUCAIA DO SUL,8.0,,prata
+2026-09-04,destino,SEROPÉDICA,18.0,,prata
+2026-09-04,destino,SOROCABA,13.0,,prata
+2026-09-04,destino,SUMARÉ,17.8,,prata
+2026-09-04,destino,SUZANO,11.488,,prata
+2026-09-04,destino,SÃO BERNARDO DO CAMPO,22.0,,nanica
+2026-09-04,destino,SÃO BERNARDO DO CAMPO,77.4,,prata
+2026-09-04,destino,SÃO FRANCISCO,1.65,,prata
+2026-09-04,destino,SÃO GONÇALO,15.0,,prata
+2026-09-04,destino,SÃO JOSÉ DO RIO PRETO,56.12,,nanica
+2026-09-04,destino,SÃO JOSÉ DO RIO PRETO,12.096,,prata
+2026-09-04,destino,SÃO JOSÉ DOS CAMPOS,15.56,,prata
+2026-09-04,destino,SÃO LOURENÇO,4.0,,prata
+2026-09-04,destino,SÃO PAULO,85.71,,nanica
+2026-09-04,destino,SÃO PAULO,2.894,,outras
+2026-09-04,destino,SÃO PAULO,159.95,,prata
+2026-09-04,destino,TABOÃO DA SERRA,1.856,,prata
+2026-09-04,destino,TAUBATÉ,30.6,,prata
+2026-09-04,destino,TRÊS CORAÇÕES,3.0,,prata
+2026-09-04,destino,UBERLÂNDIA,5.0,,nanica
+2026-09-04,destino,UBERLÂNDIA,48.5,,prata
+2026-09-04,destino,UNAÍ,0.9,,nanica
+2026-09-04,destino,UNAÍ,1.2,,prata
+2026-09-04,destino,VALINHOS,10.5,,prata
+2026-09-04,destino,VIEIRAS,2.5,,nanica
+2026-09-04,destino,VIEIRAS,2.5,,prata
+2026-09-04,destino,VOLTA REDONDA,12.48,,nanica
+2026-09-04,destino,VÁRZEA GRANDE,12.0,,nanica
+2026-09-04,destino,VÁRZEA PAULISTA,42.7,,nanica
+2026-09-04,destino,VÁRZEA PAULISTA,15.0,,prata
+2026-09-04,origem,ANDRADAS,33.3,,prata
+2026-09-04,origem,ARAÇUAÍ,84.392,,prata
+2026-09-04,origem,BRAZÓPOLIS,0.9,,nanica
+2026-09-04,origem,BRAZÓPOLIS,5.6,,prata
+2026-09-04,origem,CAPITÃO ENÉAS,12.0,,nanica
+2026-09-04,origem,CAPITÃO ENÉAS,20.0,,prata
+2026-09-04,origem,CARANGOLA,13.5,,nanica
+2026-09-04,origem,CARANGOLA,0.5,,prata
+2026-09-04,origem,CONCEIÇÃO DAS PEDRAS,19.0,,nanica
+2026-09-04,origem,CONCEIÇÃO DAS PEDRAS,4.4,,prata
+2026-09-04,origem,CONTAGEM,195.11,,nanica
+2026-09-04,origem,CONTAGEM,5.85,,outras
+2026-09-04,origem,CONTAGEM,101.79,,prata
+2026-09-04,origem,CORINTO,12.0,,prata
+2026-09-04,origem,CURVELO,2.5,,nanica
+2026-09-04,origem,CURVELO,2.5,,prata
+2026-09-04,origem,CÁSSIA,85.326,,prata
+2026-09-04,origem,DELFINÓPOLIS,16.13,,nanica
+2026-09-04,origem,DELFINÓPOLIS,377.49,,prata
+2026-09-04,origem,DESTERRO DO MELO,2.0,,nanica
+2026-09-04,origem,DESTERRO DO MELO,5.0,,prata
+2026-09-04,origem,ESPINOSA,50.0,,prata
+2026-09-04,origem,FRANCISCO SÁ,20.0,,nanica
+2026-09-04,origem,FRANCISCO SÁ,20.0,,prata
+2026-09-04,origem,GONÇALVES,2.0,,prata
+2026-09-04,origem,ITACARAMBI,64.44,,nanica
+2026-09-04,origem,ITACARAMBI,9.51,,outras
+2026-09-04,origem,ITACARAMBI,33.18,,prata
+2026-09-04,origem,ITAOBIM,30.0,,prata
+2026-09-04,origem,ITINGA,12.0,,prata
+2026-09-04,origem,JANAÚBA,59.02,,nanica
+2026-09-04,origem,JANAÚBA,159.0,,prata
+2026-09-04,origem,JAÍBA,1070.203,,nanica
+2026-09-04,origem,JAÍBA,10.199,,outras
+2026-09-04,origem,JAÍBA,196.873,,prata
+2026-09-04,origem,JEQUITINHONHA,69.2,,prata
+2026-09-04,origem,JESUÂNIA,4.0,,prata
+2026-09-04,origem,LAGOA FORMOSA,4.0,,nanica
+2026-09-04,origem,LAGOA FORMOSA,47.0,,outras
+2026-09-04,origem,LAGOA FORMOSA,16.5,,prata
+2026-09-04,origem,LAMBARI,3.0,,prata
+2026-09-04,origem,LASSANCE,15.84,,nanica
+2026-09-04,origem,LASSANCE,37.9,,prata
+2026-09-04,origem,MANGA,20.79,,nanica
+2026-09-04,origem,MARILAC,34.0,,nanica
+2026-09-04,origem,MARILAC,42.18,,prata
+2026-09-04,origem,MATIAS CARDOSO,39.912,,nanica
+2026-09-04,origem,MATIAS CARDOSO,88.616,,prata
+2026-09-04,origem,MONTES CLAROS,85.9,,prata
+2026-09-04,origem,NATÉRCIA,2.5,,prata
+2026-09-04,origem,NOVA PORTEIRINHA,18.86,,nanica
+2026-09-04,origem,NOVA PORTEIRINHA,196.515,,prata
+2026-09-04,origem,NOVA UNIÃO,40.0,,nanica
+2026-09-04,origem,NOVA UNIÃO,5.0,,prata
+2026-09-04,origem,PARAISÓPOLIS,3.0,,prata
+2026-09-04,origem,PAULISTAS,18.0,,prata
+2026-09-04,origem,PEDRALVA,12.012,,nanica
+2026-09-04,origem,PEDRAS DE MARIA DA CRUZ,21.0,,prata
+2026-09-04,origem,PIRAPORA,6.9,,nanica
+2026-09-04,origem,PIRAPORA,75.62,,prata
+2026-09-04,origem,PORTEIRINHA,77.4,,prata
+2026-09-04,origem,POUSO ALEGRE,2.67,,nanica
+2026-09-04,origem,POUSO ALEGRE,0.735,,outras
+2026-09-04,origem,POUSO ALEGRE,8.73,,prata
+2026-09-04,origem,POÇO FUNDO,4.0,,prata
+2026-09-04,origem,SANTO HIPÓLITO,12.0,,prata
+2026-09-04,origem,SILVIANÓPOLIS,1.8,,prata
+2026-09-04,origem,SÃO DOMINGOS DAS DORES,4.0,,nanica
+2026-09-04,origem,SÃO DOMINGOS DAS DORES,4.0,,outras
+2026-09-04,origem,SÃO DOMINGOS DAS DORES,4.0,,prata
+2026-09-04,origem,SÃO FRANCISCO,0.9,,nanica
+2026-09-04,origem,SÃO FRANCISCO,15.2,,prata
+2026-09-04,origem,SÃO JOÃO BATISTA DO GLÓRIA,8.17,,prata
+2026-09-04,origem,SÃO JOÃO DA PONTE,10.0,,prata
+2026-09-04,origem,SÃO JOÃO DO PARAÍSO,14.85,,prata
+2026-09-04,origem,UBERLÂNDIA,12.481,,nanica
+2026-09-04,origem,UBERLÂNDIA,1.714,,outras
+2026-09-04,origem,UBERLÂNDIA,65.285,,prata
+2026-09-04,origem,VERDELÂNDIA,11.25,,nanica
+2026-09-04,origem,VERDELÂNDIA,61.955,,prata
+2026-09-04,origem,VIEIRAS,2.5,,nanica
+2026-09-04,origem,VIEIRAS,2.5,,prata
+2026-09-04,origem,VÁRZEA DA PALMA,3.3,,nanica
+2026-09-04,origem,VÁRZEA DA PALMA,10.0,,prata
+2026-09-05,destino,CAMPINAS,54.78,,nanica
+2026-09-05,destino,CAMPINAS,26.42,,prata
+2026-09-05,destino,CASSILÂNDIA,0.108,,prata
+2026-09-05,destino,CHAPADÃO DO CÉU,0.02,,outras
+2026-09-05,destino,CHAPADÃO DO SUL,0.02,,outras
+2026-09-05,destino,CHAPADÃO DO SUL,0.054,,prata
+2026-09-05,destino,CONTAGEM,48.5,,nanica
+2026-09-05,destino,CONTAGEM,65.344,,prata
+2026-09-05,destino,CUIABÁ,19.32,,nanica
+2026-09-05,destino,CUIABÁ,3.36,,prata
+2026-09-05,destino,INOCÊNCIA,0.98,,nanica
+2026-09-05,destino,INOCÊNCIA,0.096,,outras
+2026-09-05,destino,INOCÊNCIA,0.324,,prata
+2026-09-05,destino,JARDINÓPOLIS,10.08,,nanica
+2026-09-05,destino,JARDINÓPOLIS,4.62,,prata
+2026-09-05,destino,JUIZ DE FORA,6.0,,nanica
+2026-09-05,destino,JUIZ DE FORA,0.15,,outras
+2026-09-05,destino,JUIZ DE FORA,7.5,,prata
+2026-09-05,destino,JUNDIAÍ,12.6,,nanica
+2026-09-05,destino,JUNDIAÍ,12.6,,prata
+2026-09-05,destino,MONTES CLAROS,12.09,,prata
+2026-09-05,destino,OSASCO,15.672,,nanica
+2026-09-05,destino,OSASCO,0.52,,outras
+2026-09-05,destino,OSASCO,1.56,,prata
+2026-09-05,destino,PARANAÍBA,0.02,,outras
+2026-09-05,destino,PARANAÍBA,0.018,,prata
+2026-09-05,destino,PARAÍSO DAS ÁGUAS,0.08,,nanica
+2026-09-05,destino,PARAÍSO DAS ÁGUAS,0.036,,prata
+2026-09-05,destino,RIBEIRÃO DAS NEVES,12.0,,prata
+2026-09-05,destino,RIBEIRÃO PRETO,38.22,,nanica
+2026-09-05,destino,RIBEIRÃO PRETO,10.59,,prata
+2026-09-05,destino,RIO DE JANEIRO,45.0,,nanica
+2026-09-05,destino,RIO DE JANEIRO,75.5,,prata
+2026-09-05,destino,SEROPÉDICA,10.0,,prata
+2026-09-05,destino,SÃO CAETANO DO SUL,7.425,,nanica
+2026-09-05,destino,SÃO CAETANO DO SUL,4.725,,prata
+2026-09-05,destino,SÃO PAULO,13.0,,nanica
+2026-09-05,destino,SÃO PAULO,13.5,,prata
+2026-09-05,destino,TRÊS RIOS,2.94,,nanica
+2026-09-05,destino,TRÊS RIOS,0.06,,outras
+2026-09-05,destino,TRÊS RIOS,1.5,,prata
+2026-09-05,destino,VÁRZEA PAULISTA,13.5,,nanica
+2026-09-05,origem,DELFINÓPOLIS,13.5,,prata
+2026-09-05,origem,ITACARAMBI,49.5,,nanica
+2026-09-05,origem,JANAÚBA,9.0,,nanica
+2026-09-05,origem,JANAÚBA,31.6,,prata
+2026-09-05,origem,JAÍBA,221.112,,nanica
+2026-09-05,origem,JAÍBA,0.73,,outras
+2026-09-05,origem,JAÍBA,87.394,,prata
+2026-09-05,origem,LASSANCE,36.0,,prata
+2026-09-05,origem,NOVA PORTEIRINHA,50.5,,prata
+2026-09-05,origem,PIRAPORA,7.425,,nanica
+2026-09-05,origem,PIRAPORA,27.315,,prata
+2026-09-05,origem,PONTO DOS VOLANTES,15.0,,prata
+2026-09-05,origem,UBERLÂNDIA,1.06,,nanica
+2026-09-05,origem,UBERLÂNDIA,0.156,,outras
+2026-09-05,origem,UBERLÂNDIA,0.54,,prata
+2026-09-06,destino,CONTAGEM,15.0,,nanica
+2026-09-06,destino,CONTAGEM,16.17,,prata
+2026-09-06,origem,MARILAC,15.0,,nanica
+2026-09-06,origem,PONTO DOS VOLANTES,16.17,,prata
+2026-09-07,destino,CAMPINAS,66.15,,nanica
+2026-09-07,destino,CAMPINAS,1.5,,outras
+2026-09-07,destino,CATALÃO,0.18,,nanica
+2026-09-07,destino,CATALÃO,0.426,,outras
+2026-09-07,destino,CATALÃO,0.4,,prata
+2026-09-07,destino,CONTAGEM,87.55,,nanica
+2026-09-07,destino,CONTAGEM,14.96,,outras
+2026-09-07,destino,CONTAGEM,151.345,,prata
+2026-09-07,destino,CUMARI,0.054,,outras
+2026-09-07,destino,JUNDIAÍ,17.0,,nanica
+2026-09-07,destino,QUIRINÓPOLIS,0.96,,nanica
+2026-09-07,destino,QUIRINÓPOLIS,1.2,,prata
+2026-09-07,destino,RIO DE JANEIRO,60.86,,prata
+2026-09-07,destino,SANTO ANTÔNIO DO JARDIM,14.688,,nanica
+2026-09-07,destino,SÃO GONÇALO,5.0,,prata
+2026-09-07,destino,SÃO PAULO,8.775,,nanica
+2026-09-07,destino,SÃO PAULO,17.375,,prata
+2026-09-07,destino,TRÊS RIOS,2.265,,nanica
+2026-09-07,destino,TRÊS RIOS,0.03,,outras
+2026-09-07,destino,TRÊS RIOS,0.78,,prata
+2026-09-07,destino,UBERLÂNDIA,20.5,,nanica
+2026-09-07,destino,UBERLÂNDIA,17.0,,outras
+2026-09-07,destino,UBERLÂNDIA,91.5,,prata
+2026-09-07,destino,VÁRZEA PAULISTA,22.5,,nanica
+2026-09-07,origem,ARAÇUAÍ,52.62,,prata
+2026-09-07,origem,CAMPINA VERDE,3.285,,outras
+2026-09-07,origem,CAMPINA VERDE,0.225,,prata
+2026-09-07,origem,ESPINOSA,20.0,,prata
+2026-09-07,origem,JANAÚBA,11.44,,prata
+2026-09-07,origem,JAÍBA,155.678,,nanica
+2026-09-07,origem,JAÍBA,1.53,,outras
+2026-09-07,origem,JAÍBA,20.98,,prata
+2026-09-07,origem,JEQUITINHONHA,10.8,,prata
+2026-09-07,origem,MATIAS CARDOSO,16.375,,prata
+2026-09-07,origem,RIBEIRÃO DAS NEVES,63.25,,nanica
+2026-09-07,origem,RIBEIRÃO DAS NEVES,11.675,,outras
+2026-09-07,origem,RIBEIRÃO DAS NEVES,102.92,,prata
+2026-09-07,origem,UBERLÂNDIA,21.64,,nanica
+2026-09-07,origem,UBERLÂNDIA,17.48,,outras
+2026-09-07,origem,UBERLÂNDIA,93.1,,prata

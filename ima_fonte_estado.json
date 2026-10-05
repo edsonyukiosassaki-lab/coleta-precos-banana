@@ -1,20 +1,21 @@
 {
   "cabecalho": [
-    "data de emissão da ptv",
-    "cod. município origem",
-    "município de origem",
-    "cod. município de destino",
-    "município de destino",
-    "cultura",
-    "variedade",
-    "carga",
-    "unidade de medida",
-    ""
+    "dt_emissao",
+    "tp_documento_fundamentacao",
+    "cod_muni_origem",
+    "municipio_origem",
+    "cod_muni_destino",
+    "municipio_destino",
+    "nm_cultura",
+    "nm_variedade",
+    "total_carga",
+    "ds_unidade_medida"
   ],
   "campos": {
     "carga": "nome",
     "data": "nome",
     "destino": "nome",
+    "documento": "nome",
     "origem": "nome",
     "unidade": "nome",
     "variedade": "nome"

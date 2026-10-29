@@ -9,7 +9,9 @@
     "nm_cultura",
     "nm_variedade",
     "total_carga",
-    "ds_unidade_medida"
+    "ds_unidade_medida",
+    "",
+    ""
   ],
   "campos": {
     "carga": "nome",

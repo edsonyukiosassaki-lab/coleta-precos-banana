@@ -65,6 +65,40 @@ class TestCeasaminas(unittest.TestCase):
             c.ler_ceasaminas_estados(html)
 
 
+class TestBoletimCeasaminas(unittest.TestCase):
+    """Boletim diário oficial da CEASAMINAS (09/11/2026): guarda o histórico de BH por data, e a PRATA CLIM EXT preço
+    comum é a mesma série do Agrolink (3,25 em outubro) e da página 'mais comum' (3,75 em 09/11)."""
+
+    def test_le_a_prata_extra_preco_comum_com_a_data_do_boletim(self):
+        x = c.ler_ceasaminas_boletim(ler('ceasaminas_boletim_bh_2026-10-30.html'))
+        self.assertEqual(x['ceasa'], 'Belo Horizonte (CEASAMINAS)')
+        self.assertEqual(x['preco_kg'], 3.25)
+        self.assertEqual(x['data_cotacao'], date(2026, 10, 30))
+        self.assertNotIn(',', x['fonte'])
+
+    def test_endereco_do_boletim_usa_mes_dia_ano(self):
+        self.assertEqual(
+            c.url_boletim_ceasaminas(214, date(2026, 10, 30)),
+            'https://minas1.ceasa.mg.gov.br/detec/boletim_completo/boletim_completo.php'
+            '?nmgp_parms=mercod%3F%23%3F214%3F%40%3Fdata%3F%23%3F10%2F30%2F2026%3F%40%3Fnumero%3F%23%3F1%3F%40%3F')
+
+    def test_isca_unidade_que_nao_e_kg_reprova(self):
+        h = ler('ceasaminas_boletim_bh_2026-10-30.html')
+        i = h.index('BANANA PRATA CLIM EXT')
+        h = h[:i] + h[i:].replace('KG', 'CX', 1)
+        with self.assertRaises(c.ErroFonte):
+            c.ler_ceasaminas_boletim(h)
+
+    def test_isca_sem_a_linha_da_prata_extra_reprova(self):
+        with self.assertRaises(c.ErroFonte):
+            c.ler_ceasaminas_boletim(ler('ceasaminas_boletim_bh_2026-10-30.html').replace('BANANA PRATA CLIM EXT', 'BANANA PRATA XXX'))
+
+    def test_isca_pagina_de_erro_sem_data_reprova(self):
+        # dia sem boletim: o site devolve "Erro ao acessar o banco de dados" — não pode virar cotação
+        with self.assertRaises(c.ErroFonte):
+            c.ler_ceasaminas_boletim('<html>Atenção Erro ao acessar o banco de dados</html>')
+
+
 class TestRio(unittest.TestCase):
     def test_pdf_real_modal_60_na_caixa_de_20kg_vira_3_reais(self):
         x = c.ler_rj(pdf('ceasarj_2026-11-09.pdf'))
@@ -191,6 +225,7 @@ class TestCsv(unittest.TestCase):
     def test_nenhuma_fonte_tem_virgula(self):
         # o boletim lê o CSV com split(',') simples (parsePrecosCsv): vírgula na fonte viraria aspas no rodapé
         fontes = [c.ler_rj(pdf('ceasarj_2026-11-09.pdf'))['fonte'],
+                  c.ler_ceasaminas_boletim(ler('ceasaminas_boletim_bh_2026-10-30.html'))['fonte'],
                   c.ler_pr_curitiba(pdf('ceasapr_curitiba_2026-11-09.pdf'))['fonte'],
                   *[x['fonte'] for x in c.ler_ceasaminas_estados(ler('ceasaminas_estados_2026-11-09.html'))],
                   *[x['fonte'] for x in c.ler_ceasaminas_mg(ler('ceasaminas_mg_2026-11-09.html'))]]

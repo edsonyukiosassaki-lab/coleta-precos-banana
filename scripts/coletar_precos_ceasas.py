@@ -38,7 +38,8 @@ import time
 import uuid
 from datetime import date, datetime, timedelta
 from pathlib import Path
-from urllib.parse import unquote, urljoin
+from calendar import monthrange
+from urllib.parse import quote, unquote, urljoin
 
 RAIZ = Path(__file__).resolve().parent.parent
 UA = 'coleta-precos-banana/2.0 (robo de boletim semanal de precos; poucos acessos por dia)'
@@ -152,6 +153,37 @@ def ler_ceasaminas_mg(html: str) -> list:
         if v is not None and d is not None:
             saida.append(cotacao(nome, v, d, f'CEASAMINAS ({rotulo})'))
     return saida
+
+
+# ── boletim diário da CEASAMINAS (histórico por data) ───────────────────────────────────────────────────
+# Achado em 09/11/2026: o "Boletim Diário de Preços Completo" abre por GET simples, sem sessão nem formulário
+# (mercod 214 = Grande BH; data em MÊS/DIA/ANO). Guarda o histórico desde 11/2021. A linha usada é a BANANA PRATA
+# CLIM EXT, preço COMUM — a mesma série do Agrolink (3,25 em outubro) e da página "mais comum" (3,75 em 09/11).
+URL_CM_BOLETIM = 'https://minas1.ceasa.mg.gov.br/detec/boletim_completo/boletim_completo.php'
+MERCOD_GRANDE_BH = 214
+
+
+def url_boletim_ceasaminas(mercod: int, dia: date) -> str:
+    parms = f'mercod?#?{mercod}?@?data?#?{dia.strftime("%m/%d/%Y")}?@?numero?#?1?@?'
+    return f'{URL_CM_BOLETIM}?nmgp_parms={quote(parms, safe="")}'
+
+
+def ler_ceasaminas_boletim(html: str) -> dict:
+    d = re.search(r'Data:\s*(\d{2}/\d{2}/\d{4})', html)
+    if not d:
+        raise ErroFonte('boletim CEASAMINAS: sem data (dia sem boletim ou página de erro)')
+    m = re.search(r'id="id_sc_field_prdnom_(\d+)">\s*BANANA PRATA CLIM EXT\s*<', html)
+    if not m:
+        raise ErroFonte('boletim CEASAMINAS: linha BANANA PRATA CLIM EXT não encontrada')
+    n = m.group(1)
+    campo = lambda nome: re.search(rf'id="id_sc_field_{nome}_{n}">\s*([^<]*?)\s*<', html)
+    un, comum = campo('embdesresu'), campo('pboprccomum')
+    if not un or un.group(1).strip().upper() != 'KG':
+        raise ErroFonte(f'boletim CEASAMINAS: prata extra não está em KG ({un.group(1) if un else "?"})')
+    if not comum or not comum.group(1):
+        raise ErroFonte('boletim CEASAMINAS: prata extra sem preço comum')
+    return cotacao('Belo Horizonte (CEASAMINAS)', num_br(comum.group(1)), data_br(d.group(1)),
+                   'CEASAMINAS (boletim diário - Grande BH)')
 
 
 # ── PDFs (Rio e Curitiba) ───────────────────────────────────────────────────────────────────────────────
@@ -336,6 +368,54 @@ def coletar_pr(rede: Rede, alvo: date) -> dict:
     return _pdf_do_dia(rede, links, alvo, ler_pr_curitiba)
 
 
+def recompor_mes(rede: Rede, mes: str, log=print) -> list:
+    """Mês inteiro só com fontes OFICIAIS que guardam histórico (09/11/2026, para o vídeo da porteira de outubro):
+    BH pelo boletim diário da CEASAMINAS (dia útil a dia útil), Rio e Curitiba pelos PDFs de cada dia, uma vez cada.
+    São Paulo e Vitória ficam de fora — a página "mais comum" da CEASAMINAS só mostra o preço do dia."""
+    ano, m = map(int, mes.split('-'))
+    cots = []
+    for dia in (date(ano, m, d) for d in range(1, monthrange(ano, m)[1] + 1)):
+        if dia.weekday() >= 5:
+            continue
+        try:
+            x = ler_ceasaminas_boletim(rede.get(url_boletim_ceasaminas(MERCOD_GRANDE_BH, dia)).decode('utf-8', 'replace'))
+            if x['data_cotacao'] != dia:
+                raise ErroFonte(f'pedido {dia.isoformat()}, veio {x["data_cotacao"].isoformat()}')
+            cots.append(x)
+            log(f'  BH {dia.isoformat()}: R$ {x["preco_kg"]:.2f}')
+        except ErroFonte as e:
+            log(f'  BH {dia.isoformat()}: sem cotação ({e})')
+        time.sleep(1)   # boletim é gerado na hora pelo banco deles — sem pressa
+
+    def links_rj_mes() -> dict:
+        if ano not in RJ_INDICE_ANO:
+            raise ErroFonte(f'índice do ano {ano} não configurado')
+        meses = links_rj_meses(rede.get(RJ_INDICE_ANO[ano]).decode('utf-8', 'replace'))
+        if m not in meses:
+            raise ErroFonte(f'mês {m:02d}/{ano} não está no índice')
+        return links_rj(rede.get(meses[m]).decode('utf-8', 'replace'))
+
+    def links_pr_mes() -> dict:
+        return links_pr(rede.get(URL_PR_ANO.format(ano=ano)).decode('utf-8', 'replace'))
+
+    for nome, obter, ler in [('Rio', links_rj_mes, ler_rj), ('Curitiba', links_pr_mes, ler_pr_curitiba)]:
+        try:
+            links = {d: u for d, u in obter().items() if (d.year, d.month) == (ano, m)}
+        except ErroFonte as e:
+            log(f'  {nome}: FONTE FALHOU ({e})')
+            continue
+        for dia in sorted(links):
+            try:
+                x = ler(texto_pdf(rede.get(links[dia])))
+                if x['data_cotacao'] != dia:
+                    raise ErroFonte(f'PDF de {dia.isoformat()} traz {x["data_cotacao"].isoformat()} por dentro')
+                cots.append(x)
+                log(f'  {nome} {dia.isoformat()}: R$ {x["preco_kg"]:.2f}')
+            except ErroFonte as e:
+                log(f'  {nome} {dia.isoformat()}: fora ({e})')
+    return sorted(cots, key=lambda x: (x['data_cotacao'], PRIORIDADE.index(x['ceasa'])))
+
+
 def coletar_tudo(rede: Rede, hoje: date) -> list:
     cots = []
     # ordem importa no empate de data: o Rio do PDF do CEASA-RJ vem antes do Rio da CEASAMINAS
@@ -363,10 +443,20 @@ def main() -> None:
     ap.add_argument('--seco', action='store_true', help='coleta de hoje sem gravar o CSV')
     ap.add_argument('--de', type=date.fromisoformat, help='modo teste: primeiro dia (Rio e Curitiba)')
     ap.add_argument('--ate', type=date.fromisoformat, help='modo teste: último dia')
+    ap.add_argument('--recompor', help='AAAA-MM: mês inteiro só com fontes oficiais; CSV na saída padrão, registro no stderr')
     args = ap.parse_args()
     execucao = uuid.uuid4().hex[:8]
-    print(f'[{execucao}] início {datetime.now().isoformat(timespec="seconds")}')
     rede = Rede()
+
+    if args.recompor:
+        log = lambda s: print(s, file=sys.stderr)
+        log(f'[{execucao}] RECOMPOSIÇÃO de {args.recompor} (só fontes oficiais) — início {datetime.now().isoformat(timespec="seconds")}')
+        cots = recompor_mes(rede, args.recompor, log)
+        print('\n'.join(linhas_csv(cots)))
+        log(f'[{execucao}] fim: {len(cots)} cotações')
+        return
+
+    print(f'[{execucao}] início {datetime.now().isoformat(timespec="seconds")}')
 
     if args.de:
         ate = args.ate or args.de

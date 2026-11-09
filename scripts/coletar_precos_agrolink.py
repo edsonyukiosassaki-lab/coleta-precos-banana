@@ -1,6 +1,11 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""Coleta diária de cotações de Banana Prata 1Kg por CEASA — fonte: Agrolink.
+"""APOSENTADO em 09/11/2026 — NÃO reativar. Substituído por scripts/coletar_precos_ceasas.py (fontes oficiais).
+Motivos: o Agrolink refez o site (~24/10/2026) e este coletor passou a falhar todo dia; os termos de uso do
+Agrolink (cl. 3.4, atualizados em 03/05/2021) proíbem robôs; e este coletor se identificava como navegador
+Chrome (HEADERS abaixo). Fica no repositório só como histórico.
+
+Coleta diária de cotações de Banana Prata 1Kg por CEASA — fonte: Agrolink.
 
 Substitui o coletor externo (Manus AI), aposentado em 20/07/2026: a série dele
 ficou congelada de 14/05 a 18/07 com os mesmos 5 valores (ver quarentena/).

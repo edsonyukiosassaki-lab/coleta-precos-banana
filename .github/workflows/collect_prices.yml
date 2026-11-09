@@ -23,11 +23,17 @@ jobs:
         with:
           python-version: '3.11'
 
+      # pypdf fixo na versão testada (lê os PDFs do CEASA-RJ e do CEASA-PR) — versão nova pode extrair o texto diferente
       - name: Instalar dependências
-        run: pip install requests
+        run: pip install requests pypdf==6.14.2
 
-      - name: Coletar preços no Agrolink
-        run: python scripts/coletar_precos_agrolink.py
+      # 09/11/2026: Agrolink aposentado (site refeito em ~24/10 e termos de uso proíbem robôs).
+      # Fontes oficiais: CEASAMINAS (BH, SP, ES + reservas MG), CEASA-RJ (PDF) e CEASA-PR Curitiba (PDF).
+      - name: Testes do coletor (amostras reais + iscas)
+        run: python tests/test_coletar_precos_ceasas.py
+
+      - name: Coletar preços nas CEASAs (fontes oficiais)
+        run: python scripts/coletar_precos_ceasas.py
 
       - name: Commit do CSV do dia
         run: |
@@ -37,7 +43,7 @@ jobs:
           if git diff --cached --quiet; then
             echo "Nada novo para commitar."
           else
-            git commit -m "coleta: preços Agrolink $(date +%F)"
+            git commit -m "coleta: preços CEASAs oficiais $(date +%F)"
             git pull --rebase origin main
             git push
           fi
@@ -47,8 +53,8 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          EXISTE=$(gh issue list -R "$GITHUB_REPOSITORY" --state open --search "Coleta de preços (Agrolink/CEASA) FALHOU" --json number -q 'length')
+          EXISTE=$(gh issue list -R "$GITHUB_REPOSITORY" --state open --search "Coleta de preços (CEASAs oficiais) FALHOU" --json number -q 'length')
           if [ "$EXISTE" != "0" ]; then echo "Issue de falha já aberta — não duplicar."; exit 0; fi
           gh issue create -R "$GITHUB_REPOSITORY" \
-            --title "Coleta de preços (Agrolink/CEASA) FALHOU ($(date +%d/%m/%Y))" \
-            --body "$(printf 'A coleta diária de preços falhou — o boletim usa a última série disponível.\n\n**O que fazer (nesta ordem):**\n1. Actions → **collect_prices** → Run workflow (rerodar resolve a maioria).\n2. Se falhar de novo, a fonte pode estar fora do ar — espere 1h e rerode.\n3. Se o log citar GUARDRAIL (preços congelados ou poucas praças), NÃO rerode à força: acione o Claude com o link desta Issue.\n\nLogs: %s/%s/actions/runs/%s' "$GITHUB_SERVER_URL" "$GITHUB_REPOSITORY" "$GITHUB_RUN_ID")"
+            --title "Coleta de preços (CEASAs oficiais) FALHOU ($(date +%d/%m/%Y))" \
+            --body "$(printf 'A coleta diária de preços falhou. O boletim de segunda AVISA na tela e na voz se ficar sem cotação nova na semana (trava de 09/11/2026), mas não tem preço novo.\n\n**O que fazer (nesta ordem):**\n1. Actions → **collect_prices** → Run workflow (rerodar resolve a maioria).\n2. Se falhar de novo, a fonte pode estar fora do ar — espere 1h e rerode.\n3. Se o log citar GUARDRAIL (preços congelados ou poucas praças), NÃO rerode à força: acione o Claude com o link desta Issue.\n\nLogs: %s/%s/actions/runs/%s' "$GITHUB_SERVER_URL" "$GITHUB_REPOSITORY" "$GITHUB_RUN_ID")"

@@ -10,7 +10,10 @@ Fontes (todas de órgão público, sem formulário, sem login):
 - CEASAMINAS "Preço mais comum nos Estados" (HTML): Belo Horizonte, São Paulo, Espírito Santo — já em R$/kg,
   uma data por coluna. A coluna do Rio vem com data 01/01/1900 (sem dado) e cai na regra de frescor.
 - CEASAMINAS "Preço mais comum MG" (HTML): Uberlândia e Juiz de Fora — RESERVAS, só entram se faltar praça.
-- CEASA-RJ boletim diário (PDF, dias úteis): BANANA PRATA Extra, caixa de 20 kg, preço MODAL ÷ 20.
+- CEASA-RJ boletim diário (PDF, dias úteis): BANANA PRATA Extra, caixa de 20 kg, preço MODAL ÷ 20. O site recusa o
+  GitHub; quem lê é o PC do Edson (--so-rio, pc/coleta-rio.ps1), e aqui entra a cotação mais nova de
+  rio/precos_rio_ceasarj.csv (09/11/2026).
+- CEASAMINAS boletim diário completo (HTML por GET, histórico desde 11/2021): usado no --recompor (BH, prata extra).
 - CEASA-PR Curitiba, coleta diária (PDF, dias úteis): BANANA PRATA, caixa de 20 kg, MAIS COMUM do dia ÷ 20.
 A CEASAMINAS NÃO guarda histórico aberto (as consultas por data são formulários) — por isso o modo de teste
 (--de/--ate) só refaz Rio e Curitiba.
@@ -368,6 +371,31 @@ def coletar_pr(rede: Rede, alvo: date) -> dict:
     return _pdf_do_dia(rede, links, alvo, ler_pr_curitiba)
 
 
+# ── Rio pelo PC do Edson ────────────────────────────────────────────────────────────────────────────────
+# 09/11/2026: o site do CEASA-RJ recusa a conexão vinda do GitHub (fora do Brasil) e funciona do PC dele. Uma tarefa
+# do Agendador do Windows (pc/coleta-rio.ps1) roda `--so-rio` uma vez por dia e manda esta série ao GitHub; o robô
+# do GitHub usa a cotação mais nova dela. PC desligado por mais de DIAS_FRESCO dias = Rio fora, reserva cobre.
+ARQ_RIO_PC = RAIZ / 'rio' / 'precos_rio_ceasarj.csv'
+
+
+def ler_serie_rio(texto: str) -> list:
+    linhas = [l for l in texto.strip().splitlines()[1:] if l.strip()] if texto.strip() else []
+    return [cotacao(r[0].strip(), float(r[1]), date.fromisoformat(r[2].strip()), ','.join(r[3:]).strip())
+            for r in csv.reader(linhas)]
+
+
+def atualizar_serie_rio(serie: list, nova: dict) -> list:
+    """Um registro por dia de cotação; o mesmo dia lido de novo vale a leitura mais recente (PDF corrigido)."""
+    por_dia = {x['data_cotacao']: x for x in serie}
+    por_dia[nova['data_cotacao']] = nova
+    return [por_dia[d] for d in sorted(por_dia)]
+
+
+def rio_do_pc(texto: str):
+    serie = ler_serie_rio(texto)
+    return max(serie, key=lambda x: x['data_cotacao']) if serie else None
+
+
 def recompor_mes(rede: Rede, mes: str, log=print) -> list:
     """Mês inteiro só com fontes OFICIAIS que guardam histórico (09/11/2026, para o vídeo da porteira de outubro):
     BH pelo boletim diário da CEASAMINAS (dia útil a dia útil), Rio e Curitiba pelos PDFs de cada dia, uma vez cada.
@@ -418,8 +446,17 @@ def recompor_mes(rede: Rede, mes: str, log=print) -> list:
 
 def coletar_tudo(rede: Rede, hoje: date) -> list:
     cots = []
-    # ordem importa no empate de data: o Rio do PDF do CEASA-RJ vem antes do Rio da CEASAMINAS
+    def rio_pelo_pc() -> list:
+        if not ARQ_RIO_PC.exists():
+            raise ErroFonte(f'{ARQ_RIO_PC.relative_to(RAIZ)} ainda não existe (tarefa do PC nunca rodou)')
+        x = rio_do_pc(ARQ_RIO_PC.read_text(encoding='utf-8'))
+        if x is None:
+            raise ErroFonte('série do Rio pelo PC vazia')
+        return [x]
+
+    # ordem importa no empate de data: o Rio do PDF lido aqui, depois o Rio que o PC mandou, depois o da CEASAMINAS
     for nome, fazer in [('CEASA-RJ', lambda: [coletar_rj(rede, hoje)]),
+                        ('CEASA-RJ pelo PC', rio_pelo_pc),
                         ('CEASA-PR', lambda: [coletar_pr(rede, hoje)]),
                         ('CEASAMINAS estados', lambda: ler_ceasaminas_estados(rede.get(URL_CM_ESTADOS).decode('utf-8', 'replace'))),
                         ('CEASAMINAS MG', lambda: ler_ceasaminas_mg(rede.get(URL_CM_MG).decode('utf-8', 'replace')))]:
@@ -444,9 +481,26 @@ def main() -> None:
     ap.add_argument('--de', type=date.fromisoformat, help='modo teste: primeiro dia (Rio e Curitiba)')
     ap.add_argument('--ate', type=date.fromisoformat, help='modo teste: último dia')
     ap.add_argument('--recompor', help='AAAA-MM: mês inteiro só com fontes oficiais; CSV na saída padrão, registro no stderr')
+    ap.add_argument('--so-rio', metavar='ARQUIVO', help='tarefa do PC: lê o boletim do CEASA-RJ e atualiza a série do Rio')
     args = ap.parse_args()
     execucao = uuid.uuid4().hex[:8]
     rede = Rede()
+
+    if args.so_rio:
+        print(f'[{execucao}] RIO PELO PC — início {datetime.now().isoformat(timespec="seconds")}')
+        arq = Path(args.so_rio)
+        try:
+            x = coletar_rj(rede, date.today())
+            if not (PRECO_MIN <= x['preco_kg'] <= PRECO_MAX):
+                raise ErroFonte(f'preço fora da faixa (R$ {x["preco_kg"]})')
+        except ErroFonte as e:
+            print(f'[{execucao}] fim: FALHOU')
+            sys.exit(f'RIO: {e}')
+        serie = atualizar_serie_rio(ler_serie_rio(arq.read_text(encoding='utf-8')) if arq.exists() else [], x)
+        arq.parent.mkdir(parents=True, exist_ok=True)
+        arq.write_text('\n'.join(linhas_csv(serie)) + '\n', encoding='utf-8')
+        print(f'[{execucao}] fim: OK — Rio R$ {x["preco_kg"]:.2f} ({x["data_cotacao"].isoformat()}), série com {len(serie)} dias')
+        return
 
     if args.recompor:
         log = lambda s: print(s, file=sys.stderr)

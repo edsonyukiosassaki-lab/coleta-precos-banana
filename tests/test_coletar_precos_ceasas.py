@@ -99,6 +99,40 @@ class TestBoletimCeasaminas(unittest.TestCase):
             c.ler_ceasaminas_boletim('<html>Atenção Erro ao acessar o banco de dados</html>')
 
 
+class TestRioPeloPC(unittest.TestCase):
+    """09/11/2026: o site do CEASA-RJ recusa a conexão do GitHub. O PC do Edson coleta só o Rio e grava a série em
+    rio/precos_rio_ceasarj.csv; o robô do GitHub usa a cotação mais nova dessa série."""
+    CAB = 'ceasa,preco_kg,data_cotacao,fonte'
+
+    def test_serie_ganha_o_dia_novo_e_nao_repete_o_mesmo_dia(self):
+        serie = c.ler_serie_rio('\n'.join([self.CAB, 'Rio de Janeiro (CEASA RJ),3.0,2026-11-06,CEASA-RJ (boletim diário - modal)']))
+        nova = cot('Rio de Janeiro (CEASA RJ)', 3.25, date(2026, 11, 9))
+        s1 = c.atualizar_serie_rio(serie, nova)
+        self.assertEqual([x['data_cotacao'] for x in s1], [date(2026, 11, 6), date(2026, 11, 9)])
+        s2 = c.atualizar_serie_rio(s1, cot('Rio de Janeiro (CEASA RJ)', 3.25, date(2026, 11, 9)))
+        self.assertEqual(len(s2), 2)
+
+    def test_mesmo_dia_com_preco_corrigido_no_pdf_vale_o_mais_recente_lido(self):
+        serie = [cot('Rio de Janeiro (CEASA RJ)', 3.0, date(2026, 11, 9))]
+        s = c.atualizar_serie_rio(serie, cot('Rio de Janeiro (CEASA RJ)', 3.5, date(2026, 11, 9)))
+        self.assertEqual([x['preco_kg'] for x in s], [3.5])
+
+    def test_rio_do_pc_e_a_cotacao_mais_nova_da_serie(self):
+        texto = '\n'.join([self.CAB, 'Rio de Janeiro (CEASA RJ),3.0,2026-11-06,CEASA-RJ (boletim diário - modal)',
+                           'Rio de Janeiro (CEASA RJ),3.25,2026-11-09,CEASA-RJ (boletim diário - modal)'])
+        x = c.rio_do_pc(texto)
+        self.assertEqual((x['preco_kg'], x['data_cotacao']), (3.25, date(2026, 11, 9)))
+        self.assertEqual(x['ceasa'], 'Rio de Janeiro (CEASA RJ)')
+
+    def test_serie_vazia_nao_inventa_rio(self):
+        self.assertIsNone(c.rio_do_pc(self.CAB))
+        self.assertIsNone(c.rio_do_pc(''))
+
+    def test_rio_do_pc_velho_cai_na_regra_de_frescor(self):
+        x = c.rio_do_pc('\n'.join([self.CAB, 'Rio de Janeiro (CEASA RJ),3.0,2026-10-29,CEASA-RJ (boletim diário - modal)']))
+        self.assertEqual(c.escolher([x], HOJE), [])   # 11 dias: PC desligado há tempo → reserva cobre
+
+
 class TestRio(unittest.TestCase):
     def test_pdf_real_modal_60_na_caixa_de_20kg_vira_3_reais(self):
         x = c.ler_rj(pdf('ceasarj_2026-11-09.pdf'))

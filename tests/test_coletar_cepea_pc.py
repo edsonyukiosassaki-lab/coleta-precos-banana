@@ -66,5 +66,25 @@ class TestSerie(unittest.TestCase):
         self.assertFalse(c.em_dia([], HOJE))
 
 
+class TestDesligado(unittest.TestCase):
+    """09/11/2026: a 1ª leitura de verdade, do PC do Edson, voltou HTTP 403 — o site barra até o robô honesto.
+    Combinado: parar. Desligado, o robô não faz NENHUM pedido e sai como 'barrado' (código 2) no registro da tarefa."""
+
+    def test_desligado_nao_pede_a_pagina_e_sai_com_codigo_de_barrado(self):
+        self.assertFalse(c.LIGADO)
+        import builtins
+        original = builtins.__import__
+
+        def sem_rede(nome, *a, **k):
+            if nome == 'requests':
+                raise AssertionError('desligado não pode nem carregar a biblioteca de rede')
+            return original(nome, *a, **k)
+        builtins.__import__ = sem_rede
+        try:
+            self.assertEqual(c.main(), 2)
+        finally:
+            builtins.__import__ = original
+
+
 if __name__ == '__main__':
     unittest.main(verbosity=1)

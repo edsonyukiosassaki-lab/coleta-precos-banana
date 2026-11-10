@@ -23,5 +23,10 @@ Como o resto usa:
 Os `.ps1` são só ASCII de propósito: o PowerShell 5.1 lê `.ps1` sem BOM como ANSI, e travessão ou acento dentro de
 texto entre aspas vira aspa solta e quebra o script.
 
+**CEPEA DESLIGADO desde 09/11/2026 21h08:** a 1ª leitura de verdade, deste PC, voltou HTTP 403 — a proteção do site
+barra até o robô honesto. Como combinado, parou: `scripts/coletar_cepea_pc.py` tem `LIGADO = False`, não faz
+nenhum pedido e aparece no registro como "CEPEA BARRADO pelo site (nao insistir)". Religar só se o CEPEA/HF Brasil
+liberar o acesso por escrito. O Rio segue normal.
+
 Histórico: 09/11/2026 — Rio pelo PC ("faça a coleta do Rio pelo meu PC") e, no mesmo dia, CEPEA honesto pelo PC
 ("a coleta CEPEA você não consegue fazer igual o Rio?").

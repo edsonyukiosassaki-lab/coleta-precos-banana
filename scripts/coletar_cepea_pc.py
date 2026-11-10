@@ -33,6 +33,12 @@ MESES = {'jan': 1, 'fev': 2, 'mar': 3, 'abr': 4, 'mai': 5, 'jun': 6, 'jul': 7, '
 SINAIS_DE_BLOQUEIO = ('just a moment', 'um momento', '/cdn-cgi/challenge-platform', 'cf-chl')
 
 
+# 09/11/2026 21h08: a 1ª leitura de verdade, do PC do Edson, voltou HTTP 403 — a proteção do site barra até o robô
+# honesto. Combinado antes do teste: se barrar, PARA. Desligado, não faz nenhum pedido e sai com código 2 ("barrado"
+# no registro da tarefa). Religar (True) só se o CEPEA/HF Brasil liberar o acesso por escrito.
+LIGADO = False
+
+
 class ErroCepea(Exception):
     pass
 
@@ -124,6 +130,9 @@ def em_dia(existentes: list, hoje: date) -> bool:
 
 
 def main() -> int:
+    if not LIGADO:
+        print('CEPEA: DESLIGADO desde 09/11/2026 — o site barrou o robô honesto (HTTP 403); nenhum pedido feito')
+        return 2
     ap = argparse.ArgumentParser()
     ap.add_argument('--csv', default=str(RAIZ / 'cepea_banana_semanal.csv'))
     arq = Path(ap.parse_args().csv)

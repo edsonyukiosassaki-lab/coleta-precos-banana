@@ -4,8 +4,8 @@ Motivo: este robô só passava pela proteção do site (Cloudflare) DISFARÇADO 
 rodando em Linux, aviso de automação escondido (--disable-blink-features=AutomationControlled) e navegador
 "com tela" sob xvfb para dar menos sinais ao filtro. Em 07/11 a proteção pegou (403 "Um momento…"). O
 robots.txt do HF Brasil ainda proíbe por nome os agentes da Anthropic (ClaudeBot, Claude-Web, anthropic-ai).
-O workflow semanal (cepea_semanal.yml) foi removido. A série cepea_banana_semanal.csv FICA como histórico e
-pode receber linhas novas coladas pelo Edson (ele abre a página, copia a tabela; o upsert do IMA leva ao ERP).
+O workflow semanal (cepea_semanal.yml) foi removido. A série cepea_banana_semanal.csv continua — quem a alimenta
+agora é scripts/coletar_cepea_pc.py, HONESTO, pelo PC do Edson (pc/coleta-pc.ps1); o upsert do IMA leva ao ERP.
 
 coletar_cepea_banana.py — série semanal Hortifruti/CEPEA (HF Brasil) de banana.
 

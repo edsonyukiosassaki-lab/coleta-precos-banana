@@ -11,7 +11,7 @@ Fontes (todas de órgão público, sem formulário, sem login):
   uma data por coluna. A coluna do Rio vem com data 01/01/1900 (sem dado) e cai na regra de frescor.
 - CEASAMINAS "Preço mais comum MG" (HTML): Uberlândia e Juiz de Fora — RESERVAS, só entram se faltar praça.
 - CEASA-RJ boletim diário (PDF, dias úteis): BANANA PRATA Extra, caixa de 20 kg, preço MODAL ÷ 20. O site recusa o
-  GitHub; quem lê é o PC do Edson (--so-rio, pc/coleta-rio.ps1), e aqui entra a cotação mais nova de
+  GitHub; quem lê é o PC do Edson (--so-rio, pc/coleta-pc.ps1), e aqui entra a cotação mais nova de
   rio/precos_rio_ceasarj.csv (09/11/2026).
 - CEASAMINAS boletim diário completo (HTML por GET, histórico desde 11/2021): usado no --recompor (BH, prata extra).
 - CEASA-PR Curitiba, coleta diária (PDF, dias úteis): BANANA PRATA, caixa de 20 kg, MAIS COMUM do dia ÷ 20.
@@ -373,7 +373,7 @@ def coletar_pr(rede: Rede, alvo: date) -> dict:
 
 # ── Rio pelo PC do Edson ────────────────────────────────────────────────────────────────────────────────
 # 09/11/2026: o site do CEASA-RJ recusa a conexão vinda do GitHub (fora do Brasil) e funciona do PC dele. Uma tarefa
-# do Agendador do Windows (pc/coleta-rio.ps1) roda `--so-rio` uma vez por dia e manda esta série ao GitHub; o robô
+# do Agendador do Windows (pc/coleta-pc.ps1) roda `--so-rio` uma vez por dia e manda esta série ao GitHub; o robô
 # do GitHub usa a cotação mais nova dela. PC desligado por mais de DIAS_FRESCO dias = Rio fora, reserva cobre.
 ARQ_RIO_PC = RAIZ / 'rio' / 'precos_rio_ceasarj.csv'
 

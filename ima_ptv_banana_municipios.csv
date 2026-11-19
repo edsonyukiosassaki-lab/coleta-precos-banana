@@ -31152,3 +31152,596 @@ data,papel,municipio,toneladas,documento,grupo
 2026-11-15,origem,RIBEIRÃO DAS NEVES,97.62,cfoc,nanica
 2026-11-15,origem,RIBEIRÃO DAS NEVES,10.555,cfoc,outras
 2026-11-15,origem,RIBEIRÃO DAS NEVES,149.045,cfoc,prata
+2026-11-16,destino,ABRE CAMPO,0.5,cfo,nanica
+2026-11-16,destino,ABRE CAMPO,1.6,cfo,outras
+2026-11-16,destino,ABRE CAMPO,3.6,cfo,prata
+2026-11-16,destino,ALTEROSA,3.84,cfo,prata
+2026-11-16,destino,AMERICANA,22.05,cfo,nanica
+2026-11-16,destino,AMERICANA,1.05,cfo,outras
+2026-11-16,destino,ARAÇATUBA,24.0,cfo,nanica
+2026-11-16,destino,ARCOS,9.45,cfo,prata
+2026-11-16,destino,BARBACENA,0.5,cfo,outras
+2026-11-16,destino,BARBACENA,1.5,cfo,prata
+2026-11-16,destino,BAURU,11.35,cfo,prata
+2026-11-16,destino,BELO HORIZONTE,0.3,cfo,nanica
+2026-11-16,destino,BELO HORIZONTE,4.72,cfo,prata
+2026-11-16,destino,BRASÍLIA,34.0,cfo,prata
+2026-11-16,destino,BRAZÓPOLIS,10.0,cfo,prata
+2026-11-16,destino,CAMPINAS,101.099,cfo,nanica
+2026-11-16,destino,CAMPINAS,39.72,cfo,prata
+2026-11-16,destino,CAMPINAS,2.4,cfoc,prata
+2026-11-16,destino,CAMPINAS,20.79,ptv,nanica
+2026-11-16,destino,CAMPO GRANDE,80.04,cfo,nanica
+2026-11-16,destino,CAMPO GRANDE,11.0,cfo,prata
+2026-11-16,destino,CARANGOLA,3.2,cfo,nanica
+2026-11-16,destino,CARATINGA,16.0,cfo,outras
+2026-11-16,destino,CARATINGA,15.5,cfo,prata
+2026-11-16,destino,CATALÃO,0.32,cfo,prata
+2026-11-16,destino,CATALÃO,0.052,cfoc,nanica
+2026-11-16,destino,CATALÃO,0.306,cfoc,outras
+2026-11-16,destino,CATALÃO,0.08,cfoc,prata
+2026-11-16,destino,CONTAGEM,195.52,cfo,nanica
+2026-11-16,destino,CONTAGEM,5.85,cfo,outras
+2026-11-16,destino,CONTAGEM,212.17,cfo,prata
+2026-11-16,destino,CONTAGEM,83.54,cfoc,nanica
+2026-11-16,destino,CONTAGEM,85.52,cfoc,prata
+2026-11-16,destino,COSMÓPOLIS,8.25,cfo,nanica
+2026-11-16,destino,CRISTINA,24.0,cfo,nanica
+2026-11-16,destino,CRISTINA,6.0,cfo,prata
+2026-11-16,destino,CUIABÁ,22.6,cfo,nanica
+2026-11-16,destino,CUMARI,0.054,cfoc,outras
+2026-11-16,destino,CURVELO,3.0,cfo,prata
+2026-11-16,destino,DIADEMA,13.5,cfo,prata
+2026-11-16,destino,DIVINÓPOLIS,9.75,cfo,prata
+2026-11-16,destino,FRANCA,14.0,cfo,nanica
+2026-11-16,destino,GOVERNADOR VALADARES,30.0,cfo,outras
+2026-11-16,destino,GUARULHOS,39.0,cfo,nanica
+2026-11-16,destino,GUARULHOS,13.5,cfo,prata
+2026-11-16,destino,ITAJUBÁ,1.5,cfoc,nanica
+2026-11-16,destino,ITAJUBÁ,2.0,cfoc,prata
+2026-11-16,destino,ITARIRI,34.5,cfo,nanica
+2026-11-16,destino,ITARIRI,13.12,cfoc,prata
+2026-11-16,destino,JACAREÍ,5.056,cfoc,nanica
+2026-11-16,destino,JANAÚBA,52.54,cfo,nanica
+2026-11-16,destino,JANAÚBA,32.0,cfo,prata
+2026-11-16,destino,JAÍBA,20.79,cfo,nanica
+2026-11-16,destino,JUIZ DE FORA,5.0,cfo,nanica
+2026-11-16,destino,JUIZ DE FORA,4.0,cfo,prata
+2026-11-16,destino,JUNDIAÍ,32.0,cfo,nanica
+2026-11-16,destino,JUNDIAÍ,23.9,cfo,prata
+2026-11-16,destino,LOUVEIRA,7.04,cfo,nanica
+2026-11-16,destino,MANAUS,23.4,cfo,nanica
+2026-11-16,destino,MARINGÁ,49.0,cfo,nanica
+2026-11-16,destino,MARINGÁ,16.0,ptv,nanica
+2026-11-16,destino,MONTES CLAROS,2.0,cfo,nanica
+2026-11-16,destino,MONTES CLAROS,2.0,cfo,outras
+2026-11-16,destino,MONTES CLAROS,59.2,cfo,prata
+2026-11-16,destino,MONTES CLAROS,18.9,cfoc,prata
+2026-11-16,destino,NITERÓI,12.0,cfo,nanica
+2026-11-16,destino,NITERÓI,24.0,cfo,prata
+2026-11-16,destino,OSASCO,56.88,cfo,nanica
+2026-11-16,destino,OSASCO,0.52,cfo,outras
+2026-11-16,destino,OSASCO,12.62,cfo,prata
+2026-11-16,destino,PARAIBUNA,9.1,cfoc,nanica
+2026-11-16,destino,PATOS DE MINAS,10.0,cfo,prata
+2026-11-16,destino,PIAU,10.0,cfoc,prata
+2026-11-16,destino,POUSO ALEGRE,1.8,cfo,prata
+2026-11-16,destino,POUSO ALEGRE,1.935,cfoc,nanica
+2026-11-16,destino,POUSO ALEGRE,0.675,cfoc,outras
+2026-11-16,destino,POUSO ALEGRE,9.225,cfoc,prata
+2026-11-16,destino,QUIRINÓPOLIS,0.8,cfoc,nanica
+2026-11-16,destino,QUIRINÓPOLIS,0.4,cfoc,outras
+2026-11-16,destino,QUIRINÓPOLIS,1.04,cfoc,prata
+2026-11-16,destino,RESENDE,0.4,cfoc,nanica
+2026-11-16,destino,RIBEIRÃO DAS NEVES,27.3,cfo,prata
+2026-11-16,destino,RIBEIRÃO DAS NEVES,10.0,ptv,prata
+2026-11-16,destino,RIBEIRÃO PRETO,57.96,cfo,nanica
+2026-11-16,destino,RIBEIRÃO PRETO,9.0,cfo,outras
+2026-11-16,destino,RIBEIRÃO PRETO,21.645,cfo,prata
+2026-11-16,destino,RIBEIRÃO PRETO,23.1,ptv,nanica
+2026-11-16,destino,RIO DE JANEIRO,72.46,cfo,nanica
+2026-11-16,destino,RIO DE JANEIRO,1.56,cfo,outras
+2026-11-16,destino,RIO DE JANEIRO,370.27,cfo,prata
+2026-11-16,destino,SANTO ANTÔNIO DO JARDIM,14.688,cfo,nanica
+2026-11-16,destino,SEROPÉDICA,4.0,cfo,nanica
+2026-11-16,destino,SEROPÉDICA,6.0,cfo,prata
+2026-11-16,destino,SOROCABA,11.52,cfo,nanica
+2026-11-16,destino,SUMARÉ,26.7,cfoc,prata
+2026-11-16,destino,SÃO BERNARDO DO CAMPO,22.5,cfo,nanica
+2026-11-16,destino,SÃO BERNARDO DO CAMPO,45.9,cfo,prata
+2026-11-16,destino,SÃO JOSÉ DO RIO PRETO,24.0,cfo,nanica
+2026-11-16,destino,SÃO JOSÉ DO RIO PRETO,10.8,cfo,prata
+2026-11-16,destino,SÃO JOSÉ DOS CAMPOS,10.8,cfo,nanica
+2026-11-16,destino,SÃO PAULO,58.142,cfo,nanica
+2026-11-16,destino,SÃO PAULO,1.56,cfo,outras
+2026-11-16,destino,SÃO PAULO,70.498,cfo,prata
+2026-11-16,destino,SÃO PAULO,15.0,cfoc,nanica
+2026-11-16,destino,SÃO PAULO,13.44,ptv,nanica
+2026-11-16,destino,SÃO PAULO,22.0,ptv,prata
+2026-11-16,destino,TABOÃO DA SERRA,15.0,cfo,nanica
+2026-11-16,destino,TABOÃO DA SERRA,15.0,cfo,prata
+2026-11-16,destino,TAUBATÉ,15.836,cfo,nanica
+2026-11-16,destino,TAUBATÉ,15.3,cfoc,prata
+2026-11-16,destino,TRÊS RIOS,3.0,cfo,nanica
+2026-11-16,destino,TRÊS RIOS,1.155,cfo,prata
+2026-11-16,destino,UBERLÂNDIA,20.264,cfo,nanica
+2026-11-16,destino,UBERLÂNDIA,3.0,cfo,outras
+2026-11-16,destino,UBERLÂNDIA,25.0,cfo,prata
+2026-11-16,destino,VOLTA REDONDA,9.0,cfo,prata
+2026-11-16,destino,VOLTA REDONDA,4.4,cfoc,nanica
+2026-11-16,destino,VOLTA REDONDA,1.2,cfoc,prata
+2026-11-16,destino,VÁRZEA PAULISTA,39.0,cfo,nanica
+2026-11-16,destino,VÁRZEA PAULISTA,18.0,cfo,prata
+2026-11-16,origem,ABRE CAMPO,0.5,cfo,nanica
+2026-11-16,origem,ABRE CAMPO,1.6,cfo,outras
+2026-11-16,origem,ABRE CAMPO,3.6,cfo,prata
+2026-11-16,origem,ANDRADAS,10.2,cfoc,prata
+2026-11-16,origem,ARAÇUAÍ,0.3,cfo,outras
+2026-11-16,origem,ARAÇUAÍ,128.26,cfo,prata
+2026-11-16,origem,BRAZÓPOLIS,2.0,cfo,nanica
+2026-11-16,origem,CAMPINA VERDE,2.85,cfo,outras
+2026-11-16,origem,CAMPINA VERDE,0.3,cfo,prata
+2026-11-16,origem,CANÁPOLIS,9.0,cfo,outras
+2026-11-16,origem,CAPITÃO ENÉAS,35.44,cfo,nanica
+2026-11-16,origem,CAPITÃO ENÉAS,55.38,cfo,prata
+2026-11-16,origem,CLARO DOS POÇÕES,2.0,cfo,outras
+2026-11-16,origem,CLARO DOS POÇÕES,19.0,cfo,prata
+2026-11-16,origem,CONCEIÇÃO DAS PEDRAS,9.1,cfoc,nanica
+2026-11-16,origem,CONTAGEM,22.54,cfoc,nanica
+2026-11-16,origem,CONTAGEM,41.52,cfoc,prata
+2026-11-16,origem,CRISTINA,24.0,cfo,nanica
+2026-11-16,origem,CRISTINA,6.0,cfo,prata
+2026-11-16,origem,CRISTINA,4.8,cfoc,nanica
+2026-11-16,origem,CRISTINA,1.2,cfoc,prata
+2026-11-16,origem,CURVELO,30.3,cfo,nanica
+2026-11-16,origem,CURVELO,4.72,cfo,prata
+2026-11-16,origem,CÁSSIA,19.05,cfo,prata
+2026-11-16,origem,DELFINÓPOLIS,15.264,cfo,nanica
+2026-11-16,origem,DELFINÓPOLIS,165.57,cfo,prata
+2026-11-16,origem,ESPINOSA,20.0,cfo,prata
+2026-11-16,origem,FRANCISCO SÁ,16.0,cfo,nanica
+2026-11-16,origem,IMBÉ DE MINAS,30.0,cfo,outras
+2026-11-16,origem,INHAPIM,12.0,cfo,outras
+2026-11-16,origem,INHAPIM,2.0,cfo,prata
+2026-11-16,origem,ITACARAMBI,35.0,cfo,nanica
+2026-11-16,origem,ITACARAMBI,13.155,cfo,prata
+2026-11-16,origem,ITAJUBÁ,1.5,cfoc,nanica
+2026-11-16,origem,ITAJUBÁ,2.0,cfoc,prata
+2026-11-16,origem,JANAÚBA,23.1,cfo,nanica
+2026-11-16,origem,JANAÚBA,85.54,cfo,prata
+2026-11-16,origem,JANAÚBA,16.0,ptv,nanica
+2026-11-16,origem,JANAÚBA,32.0,ptv,prata
+2026-11-16,origem,JAÍBA,769.645,cfo,nanica
+2026-11-16,origem,JAÍBA,5.31,cfo,outras
+2026-11-16,origem,JAÍBA,129.773,cfo,prata
+2026-11-16,origem,JAÍBA,15.0,cfoc,nanica
+2026-11-16,origem,JAÍBA,57.33,ptv,nanica
+2026-11-16,origem,JEQUITIBÁ,0.8,cfo,prata
+2026-11-16,origem,JEQUITINHONHA,31.8,cfo,prata
+2026-11-16,origem,LASSANCE,54.8,cfo,prata
+2026-11-16,origem,MANGA,24.2,cfo,nanica
+2026-11-16,origem,MANHUAÇU,4.0,cfo,outras
+2026-11-16,origem,MANHUAÇU,3.0,cfo,prata
+2026-11-16,origem,MARILAC,15.0,cfo,nanica
+2026-11-16,origem,MARILAC,57.0,cfo,prata
+2026-11-16,origem,MATIAS CARDOSO,40.542,cfo,nanica
+2026-11-16,origem,MATIAS CARDOSO,31.32,cfo,prata
+2026-11-16,origem,MONTES CLAROS,22.5,cfo,nanica
+2026-11-16,origem,MONTES CLAROS,68.1,cfo,prata
+2026-11-16,origem,MONTES CLAROS,53.1,cfoc,prata
+2026-11-16,origem,NOVA PORTEIRINHA,4.0,cfo,nanica
+2026-11-16,origem,NOVA PORTEIRINHA,152.435,cfo,prata
+2026-11-16,origem,NOVA UNIÃO,60.0,cfo,nanica
+2026-11-16,origem,NOVA UNIÃO,61.0,cfoc,nanica
+2026-11-16,origem,NOVA UNIÃO,44.0,cfoc,prata
+2026-11-16,origem,PEDRALVA,10.0,cfo,prata
+2026-11-16,origem,PEDRALVA,5.056,cfoc,nanica
+2026-11-16,origem,PEDRAS DE MARIA DA CRUZ,18.0,cfo,prata
+2026-11-16,origem,PIAU,10.0,cfoc,prata
+2026-11-16,origem,PIRAPORA,10.8,cfo,nanica
+2026-11-16,origem,PIRAPORA,27.42,cfo,prata
+2026-11-16,origem,PIRAPORA,13.12,cfoc,prata
+2026-11-16,origem,POUSO ALEGRE,1.935,cfoc,nanica
+2026-11-16,origem,POUSO ALEGRE,0.675,cfoc,outras
+2026-11-16,origem,POUSO ALEGRE,9.225,cfoc,prata
+2026-11-16,origem,RIO POMBA,0.5,cfo,outras
+2026-11-16,origem,RIO POMBA,1.5,cfo,prata
+2026-11-16,origem,SILVIANÓPOLIS,1.8,cfo,prata
+2026-11-16,origem,SIMONÉSIA,3.2,cfo,nanica
+2026-11-16,origem,SÃO FRANCISCO,32.0,cfo,prata
+2026-11-16,origem,SÃO JOÃO DA PONTE,10.0,cfo,prata
+2026-11-16,origem,UBERLÂNDIA,3.0,cfo,outras
+2026-11-16,origem,UBERLÂNDIA,4.32,cfo,prata
+2026-11-16,origem,UBERLÂNDIA,0.852,cfoc,nanica
+2026-11-16,origem,UBERLÂNDIA,0.76,cfoc,outras
+2026-11-16,origem,UBERLÂNDIA,1.12,cfoc,prata
+2026-11-16,origem,VERDELÂNDIA,52.7,cfo,nanica
+2026-11-16,origem,VERDELÂNDIA,2.08,cfo,outras
+2026-11-16,origem,VERDELÂNDIA,26.365,cfo,prata
+2026-11-16,origem,VÁRZEA DA PALMA,14.688,cfo,nanica
+2026-11-16,origem,VÁRZEA DA PALMA,8.0,cfo,prata
+2026-11-17,destino,AMERICANA,23.1,cfo,nanica
+2026-11-17,destino,ANDRADAS,15.0,cfo,prata
+2026-11-17,destino,ARAÇATUBA,7.5,cfo,prata
+2026-11-17,destino,ARCOS,13.244,cfoc,prata
+2026-11-17,destino,BRASÍLIA,0.225,cfo,nanica
+2026-11-17,destino,BRASÍLIA,0.225,cfo,outras
+2026-11-17,destino,BRASÍLIA,49.85,cfo,prata
+2026-11-17,destino,BRASÍLIA,10.8,cfoc,prata
+2026-11-17,destino,BRAZÓPOLIS,7.5,cfoc,nanica
+2026-11-17,destino,BRAZÓPOLIS,4.0,cfoc,prata
+2026-11-17,destino,CAMPESTRE,0.35,cfo,nanica
+2026-11-17,destino,CAMPESTRE,0.8,cfo,prata
+2026-11-17,destino,CAMPINAS,69.51,cfo,nanica
+2026-11-17,destino,CAMPINAS,35.57,cfo,prata
+2026-11-17,destino,CAMPINAS,12.0,cfoc,prata
+2026-11-17,destino,CAMPINAS,23.1,ptv,nanica
+2026-11-17,destino,CAMPO GRANDE,43.84,cfo,nanica
+2026-11-17,destino,CAMPO GRANDE,3.0,cfo,prata
+2026-11-17,destino,CARANGOLA,5.2,cfo,nanica
+2026-11-17,destino,CARATINGA,7.0,cfo,prata
+2026-11-17,destino,CONTAGEM,50.65,cfo,nanica
+2026-11-17,destino,CONTAGEM,6.75,cfo,outras
+2026-11-17,destino,CONTAGEM,176.75,cfo,prata
+2026-11-17,destino,CONTAGEM,80.585,cfoc,nanica
+2026-11-17,destino,CONTAGEM,3.98,cfoc,outras
+2026-11-17,destino,CONTAGEM,96.23,cfoc,prata
+2026-11-17,destino,CRISTINA,9.0,cfoc,nanica
+2026-11-17,destino,CURITIBA,14.52,cfo,nanica
+2026-11-17,destino,CURVELO,30.0,cfo,nanica
+2026-11-17,destino,CURVELO,30.0,cfo,prata
+2026-11-17,destino,DIVINÓPOLIS,13.14,cfo,prata
+2026-11-17,destino,DUQUE DE CAXIAS,10.0,cfo,prata
+2026-11-17,destino,FARTURA,24.4,cfo,nanica
+2026-11-17,destino,FRANCA,15.04,cfo,nanica
+2026-11-17,destino,GOIÂNIA,16.5,cfo,prata
+2026-11-17,destino,GUARULHOS,13.5,cfo,nanica
+2026-11-17,destino,ICONHA,14.4,cfo,prata
+2026-11-17,destino,ITAJUBÁ,9.03,cfo,prata
+2026-11-17,destino,ITANHANDU,4.0,cfo,prata
+2026-11-17,destino,ITAPERUNA,0.5,cfo,nanica
+2026-11-17,destino,ITAPERUNA,0.5,cfo,prata
+2026-11-17,destino,ITARIRI,13.0,cfo,nanica
+2026-11-17,destino,ITARIRI,42.568,cfo,prata
+2026-11-17,destino,JALES,11.0,cfo,nanica
+2026-11-17,destino,JANAÚBA,46.62,cfo,nanica
+2026-11-17,destino,JAÍBA,26.08,cfo,nanica
+2026-11-17,destino,JORDÂNIA,0.8,cfo,prata
+2026-11-17,destino,JUIZ DE FORA,3.375,cfo,nanica
+2026-11-17,destino,JUIZ DE FORA,3.75,cfo,prata
+2026-11-17,destino,JUNDIAÍ,54.8,cfo,nanica
+2026-11-17,destino,JUNDIAÍ,23.9,cfo,prata
+2026-11-17,destino,LIMEIRA,11.1,cfo,nanica
+2026-11-17,destino,LONDRINA,7.57,cfo,prata
+2026-11-17,destino,LONDRINA,49.6,ptv,nanica
+2026-11-17,destino,MARIA DA FÉ,3.6,cfo,prata
+2026-11-17,destino,MARÍLIA,23.1,cfo,nanica
+2026-11-17,destino,MONTES CLAROS,50.13,cfo,nanica
+2026-11-17,destino,MONTES CLAROS,41.67,cfo,prata
+2026-11-17,destino,MONTES CLAROS,8.6,cfoc,nanica
+2026-11-17,destino,MONTES CLAROS,2.0,cfoc,outras
+2026-11-17,destino,MONTES CLAROS,13.0,cfoc,prata
+2026-11-17,destino,NITERÓI,30.0,cfo,prata
+2026-11-17,destino,OSASCO,37.49,cfo,prata
+2026-11-17,destino,PARACATU,3.0,cfo,prata
+2026-11-17,destino,PARAIBUNA,13.0,cfoc,nanica
+2026-11-17,destino,PARAOPEBA,11.0,cfo,nanica
+2026-11-17,destino,PARAOPEBA,4.0,cfo,prata
+2026-11-17,destino,PASSOS,2.16,cfo,prata
+2026-11-17,destino,PEDRA AZUL,2.4,cfo,prata
+2026-11-17,destino,PEDRALVA,39.0,cfo,nanica
+2026-11-17,destino,PEDRALVA,7.0,cfo,prata
+2026-11-17,destino,PETRÓPOLIS,5.0,cfo,prata
+2026-11-17,destino,PIAU,28.5,cfo,nanica
+2026-11-17,destino,PIRAPORA,15.0,cfo,prata
+2026-11-17,destino,POÇOS DE CALDAS,4.8,cfo,prata
+2026-11-17,destino,RIBEIRÃO DAS NEVES,28.06,cfo,nanica
+2026-11-17,destino,RIBEIRÃO DAS NEVES,32.8,cfo,prata
+2026-11-17,destino,RIBEIRÃO PRETO,163.761,cfo,nanica
+2026-11-17,destino,RIBEIRÃO PRETO,23.1,cfo,prata
+2026-11-17,destino,RIO DE JANEIRO,54.58,cfo,nanica
+2026-11-17,destino,RIO DE JANEIRO,20.5,cfo,outras
+2026-11-17,destino,RIO DE JANEIRO,281.36,cfo,prata
+2026-11-17,destino,RIO DE JANEIRO,30.87,cfoc,prata
+2026-11-17,destino,SANTA RITA DO PASSA QUATRO,9.9,cfo,prata
+2026-11-17,destino,SANTO ANTÔNIO DO JARDIM,6.48,cfo,prata
+2026-11-17,destino,SUMARÉ,19.8,cfoc,nanica
+2026-11-17,destino,SUZANO,11.52,cfo,prata
+2026-11-17,destino,SÃO BERNARDO DO CAMPO,23.1,cfo,nanica
+2026-11-17,destino,SÃO BERNARDO DO CAMPO,2.325,cfo,outras
+2026-11-17,destino,SÃO BERNARDO DO CAMPO,27.0,cfo,prata
+2026-11-17,destino,SÃO FRANCISCO,6.0,cfo,nanica
+2026-11-17,destino,SÃO JOSÉ DO RIO PRETO,41.88,cfo,nanica
+2026-11-17,destino,SÃO PAULO,76.068,cfo,nanica
+2026-11-17,destino,SÃO PAULO,1.26,cfo,outras
+2026-11-17,destino,SÃO PAULO,72.851,cfo,prata
+2026-11-17,destino,TABOÃO DA SERRA,11.9,cfo,nanica
+2026-11-17,destino,TABOÃO DA SERRA,2.24,cfo,prata
+2026-11-17,destino,TAUBATÉ,5.5,cfoc,nanica
+2026-11-17,destino,TAUBATÉ,3.0,cfoc,prata
+2026-11-17,destino,TRÊS RIOS,2.82,cfo,nanica
+2026-11-17,destino,TRÊS RIOS,0.03,cfo,outras
+2026-11-17,destino,TRÊS RIOS,1.275,cfo,prata
+2026-11-17,destino,UBERABA,7.5,cfo,nanica
+2026-11-17,destino,UBERABA,4.5,cfo,prata
+2026-11-17,destino,UBERLÂNDIA,15.0,cfo,outras
+2026-11-17,destino,UBERLÂNDIA,28.464,cfo,prata
+2026-11-17,destino,UNAÍ,0.9,cfoc,nanica
+2026-11-17,destino,UNAÍ,1.05,cfoc,prata
+2026-11-17,destino,VOLTA REDONDA,2.8,cfo,nanica
+2026-11-17,destino,VOLTA REDONDA,6.0,cfo,prata
+2026-11-17,destino,VOTORANTIM,13.24,cfo,prata
+2026-11-17,destino,VÁRZEA PAULISTA,10.5,cfo,nanica
+2026-11-17,destino,VÁRZEA PAULISTA,13.5,cfo,prata
+2026-11-17,destino,VÁRZEA PAULISTA,18.15,cfoc,nanica
+2026-11-17,origem,ARAÇUAÍ,4.0,cfo,nanica
+2026-11-17,origem,ARAÇUAÍ,0.75,cfo,outras
+2026-11-17,origem,ARAÇUAÍ,98.82,cfo,prata
+2026-11-17,origem,BALDIM,30.0,cfo,prata
+2026-11-17,origem,BELO HORIZONTE,25.085,cfoc,nanica
+2026-11-17,origem,BELO HORIZONTE,3.98,cfoc,outras
+2026-11-17,origem,BELO HORIZONTE,34.23,cfoc,prata
+2026-11-17,origem,CAMPESTRE,0.35,cfo,nanica
+2026-11-17,origem,CAMPESTRE,0.8,cfo,prata
+2026-11-17,origem,CANÁPOLIS,28.5,cfo,outras
+2026-11-17,origem,CAPITÃO ENÉAS,24.724,cfo,nanica
+2026-11-17,origem,CAPITÃO ENÉAS,38.52,cfo,prata
+2026-11-17,origem,CARANGOLA,0.5,cfo,nanica
+2026-11-17,origem,CARANGOLA,0.5,cfo,prata
+2026-11-17,origem,CONGONHAL,13.0,cfoc,nanica
+2026-11-17,origem,CONTAGEM,55.5,cfoc,nanica
+2026-11-17,origem,CONTAGEM,22.5,cfoc,prata
+2026-11-17,origem,CORINTO,17.26,cfo,nanica
+2026-11-17,origem,CRISTINA,11.0,cfo,prata
+2026-11-17,origem,CURVELO,30.0,cfo,nanica
+2026-11-17,origem,CURVELO,30.0,cfo,prata
+2026-11-17,origem,CÁSSIA,27.94,cfo,prata
+2026-11-17,origem,DELFINÓPOLIS,15.76,cfo,nanica
+2026-11-17,origem,DELFINÓPOLIS,2.325,cfo,outras
+2026-11-17,origem,DELFINÓPOLIS,200.422,cfo,prata
+2026-11-17,origem,ESPINOSA,23.0,cfo,prata
+2026-11-17,origem,FERVEDOURO,2.4,cfo,nanica
+2026-11-17,origem,FRANCISCO SÁ,16.5,cfo,nanica
+2026-11-17,origem,ITACARAMBI,24.0,cfo,nanica
+2026-11-17,origem,ITINGA,18.0,cfo,prata
+2026-11-17,origem,JANAÚBA,5.88,cfo,nanica
+2026-11-17,origem,JANAÚBA,67.1,cfo,prata
+2026-11-17,origem,JAÍBA,659.355,cfo,nanica
+2026-11-17,origem,JAÍBA,1.26,cfo,outras
+2026-11-17,origem,JAÍBA,74.451,cfo,prata
+2026-11-17,origem,JAÍBA,72.7,ptv,nanica
+2026-11-17,origem,JEQUITINHONHA,36.2,cfo,prata
+2026-11-17,origem,LASSANCE,7.5,cfo,nanica
+2026-11-17,origem,LASSANCE,55.0,cfo,prata
+2026-11-17,origem,MARILAC,33.3,cfo,prata
+2026-11-17,origem,MATIAS CARDOSO,12.0,cfo,nanica
+2026-11-17,origem,MATIAS CARDOSO,15.0,cfo,prata
+2026-11-17,origem,MONTES CLAROS,70.98,cfo,nanica
+2026-11-17,origem,MONTES CLAROS,48.5,cfo,prata
+2026-11-17,origem,MONTES CLAROS,46.55,cfoc,nanica
+2026-11-17,origem,MONTES CLAROS,2.0,cfoc,outras
+2026-11-17,origem,MONTES CLAROS,54.67,cfoc,prata
+2026-11-17,origem,NOVA PORTEIRINHA,11.9,cfo,nanica
+2026-11-17,origem,NOVA PORTEIRINHA,85.885,cfo,prata
+2026-11-17,origem,NOVA UNIÃO,15.0,cfo,nanica
+2026-11-17,origem,PARAOPEBA,11.0,cfo,nanica
+2026-11-17,origem,PARAOPEBA,4.0,cfo,prata
+2026-11-17,origem,PAULISTAS,14.85,cfo,prata
+2026-11-17,origem,PEDRALVA,39.0,cfo,nanica
+2026-11-17,origem,PEDRALVA,16.5,cfoc,nanica
+2026-11-17,origem,PEDRALVA,4.0,cfoc,prata
+2026-11-17,origem,PEDRAS DE MARIA DA CRUZ,19.5,cfo,prata
+2026-11-17,origem,PIAU,21.0,cfo,nanica
+2026-11-17,origem,PIAU,7.0,cfo,outras
+2026-11-17,origem,PIRANGUÇU,5.5,cfoc,nanica
+2026-11-17,origem,PIRANGUÇU,3.0,cfoc,prata
+2026-11-17,origem,PIRAPORA,73.94,cfo,prata
+2026-11-17,origem,PIRAPORA,25.244,cfoc,prata
+2026-11-17,origem,PONTO DOS VOLANTES,10.0,cfo,prata
+2026-11-17,origem,RIBEIRÃO DAS NEVES,39.5,cfoc,prata
+2026-11-17,origem,ROSÁRIO DA LIMEIRA,2.8,cfo,nanica
+2026-11-17,origem,SÃO FRANCISCO,30.5,cfo,prata
+2026-11-17,origem,SÃO FRANCISCO,0.9,cfoc,nanica
+2026-11-17,origem,SÃO FRANCISCO,1.05,cfoc,prata
+2026-11-17,origem,UBAPORANGA,6.0,cfo,nanica
+2026-11-17,origem,UBAPORANGA,6.0,cfo,outras
+2026-11-17,origem,UBAPORANGA,10.0,cfo,prata
+2026-11-17,origem,VERDELÂNDIA,32.1,cfo,nanica
+2026-11-17,origem,VERDELÂNDIA,0.255,cfo,outras
+2026-11-17,origem,VERDELÂNDIA,100.25,cfo,prata
+2026-11-17,origem,VÁRZEA DA PALMA,7.5,cfo,nanica
+2026-11-17,origem,VÁRZEA DA PALMA,4.5,cfo,prata
+2026-11-18,destino,AMERICANA,23.1,cfo,nanica
+2026-11-18,destino,ARAÇATUBA,24.0,cfo,nanica
+2026-11-18,destino,ARCOS,9.45,cfoc,prata
+2026-11-18,destino,AREALVA,21.0,cfo,nanica
+2026-11-18,destino,AREALVA,1.05,cfo,prata
+2026-11-18,destino,BRASÍLIA,3.0,cfo,nanica
+2026-11-18,destino,BRASÍLIA,88.74,cfo,prata
+2026-11-18,destino,BRAZÓPOLIS,90.0,cfo,prata
+2026-11-18,destino,CAMPINAS,58.52,cfo,nanica
+2026-11-18,destino,CAMPINAS,31.2,cfo,prata
+2026-11-18,destino,CAMPINAS,13.2,cfoc,nanica
+2026-11-18,destino,CAMPINAS,1.44,cfoc,prata
+2026-11-18,destino,CAMPINAS,24.48,ptv,nanica
+2026-11-18,destino,CAMPO GRANDE,64.84,cfo,nanica
+2026-11-18,destino,CAMPO GRANDE,6.24,cfo,prata
+2026-11-18,destino,CAMPO MOURÃO,14.0,cfo,nanica
+2026-11-18,destino,CAMPO MOURÃO,2.0,cfo,prata
+2026-11-18,destino,CARANGOLA,7.0,cfo,nanica
+2026-11-18,destino,CASSILÂNDIA,0.036,cfoc,outras
+2026-11-18,destino,CASSILÂNDIA,0.108,cfoc,prata
+2026-11-18,destino,CATALÃO,0.32,cfo,prata
+2026-11-18,destino,CATALÃO,0.372,cfoc,nanica
+2026-11-18,destino,CATALÃO,0.524,cfoc,outras
+2026-11-18,destino,CATALÃO,0.288,cfoc,prata
+2026-11-18,destino,CHAPADÃO DO CÉU,0.02,cfoc,outras
+2026-11-18,destino,CHAPADÃO DO SUL,0.04,cfoc,nanica
+2026-11-18,destino,CHAPADÃO DO SUL,0.11,cfoc,outras
+2026-11-18,destino,CHAPADÃO DO SUL,0.28,cfoc,prata
+2026-11-18,destino,CONTAGEM,76.3,cfo,nanica
+2026-11-18,destino,CONTAGEM,201.5,cfo,prata
+2026-11-18,destino,CONTAGEM,21.0,cfoc,nanica
+2026-11-18,destino,CONTAGEM,31.5,cfoc,prata
+2026-11-18,destino,DIADEMA,13.5,cfo,prata
+2026-11-18,destino,EMBU DAS ARTES,6.88,cfo,nanica
+2026-11-18,destino,EMBU DAS ARTES,4.64,cfo,prata
+2026-11-18,destino,GOIÂNIA,15.0,cfo,prata
+2026-11-18,destino,GUARULHOS,36.0,cfo,nanica
+2026-11-18,destino,INOCÊNCIA,0.794,cfoc,nanica
+2026-11-18,destino,INOCÊNCIA,0.134,cfoc,outras
+2026-11-18,destino,INOCÊNCIA,0.48,cfoc,prata
+2026-11-18,destino,IPAMERI,0.048,cfoc,nanica
+2026-11-18,destino,IPAMERI,0.146,cfoc,outras
+2026-11-18,destino,IPAMERI,0.032,cfoc,prata
+2026-11-18,destino,ITAJUBÁ,5.0,cfo,prata
+2026-11-18,destino,ITARIRI,11.46,cfo,nanica
+2026-11-18,destino,ITUMBIARA,0.096,cfoc,nanica
+2026-11-18,destino,ITUMBIARA,0.129,cfoc,outras
+2026-11-18,destino,ITUMBIARA,0.441,cfoc,prata
+2026-11-18,destino,JACAREÍ,15.4,cfo,nanica
+2026-11-18,destino,JANAÚBA,61.88,cfo,nanica
+2026-11-18,destino,JARDINÓPOLIS,15.0,cfo,nanica
+2026-11-18,destino,JARDINÓPOLIS,3.0,cfo,prata
+2026-11-18,destino,JAÚ,17.85,cfo,nanica
+2026-11-18,destino,JUIZ DE FORA,10.0,cfoc,nanica
+2026-11-18,destino,JUNDIAÍ,43.825,cfo,nanica
+2026-11-18,destino,JUNDIAÍ,35.2,cfo,prata
+2026-11-18,destino,JUNDIAÍ,11.4,cfoc,prata
+2026-11-18,destino,LONDRINA,32.15,cfo,nanica
+2026-11-18,destino,LONDRINA,1.24,cfo,prata
+2026-11-18,destino,MANDAGUAÇU,23.0,ptv,nanica
+2026-11-18,destino,MARINGÁ,40.5,cfo,nanica
+2026-11-18,destino,MARINGÁ,14.0,ptv,nanica
+2026-11-18,destino,MINEIROS DO TIETÊ,23.91,cfo,nanica
+2026-11-18,destino,MONTES CLAROS,15.3,cfo,nanica
+2026-11-18,destino,MONTES CLAROS,2.25,cfo,outras
+2026-11-18,destino,MONTES CLAROS,35.64,cfo,prata
+2026-11-18,destino,NITERÓI,12.0,cfo,nanica
+2026-11-18,destino,NITERÓI,0.4,cfo,outras
+2026-11-18,destino,NITERÓI,22.0,cfo,prata
+2026-11-18,destino,NOVA PORTEIRINHA,8.0,cfo,prata
+2026-11-18,destino,OSASCO,55.68,cfo,nanica
+2026-11-18,destino,OSASCO,11.745,cfo,prata
+2026-11-18,destino,PALOTINA,12.75,cfo,nanica
+2026-11-18,destino,PALOTINA,1.05,cfo,prata
+2026-11-18,destino,PARAIBUNA,10.8,cfo,nanica
+2026-11-18,destino,PARANAÍBA,0.04,cfoc,outras
+2026-11-18,destino,PARANAÍBA,0.054,cfoc,prata
+2026-11-18,destino,PARAOPEBA,15.0,cfo,nanica
+2026-11-18,destino,PARAOPEBA,5.0,cfo,prata
+2026-11-18,destino,PARAÍSO DAS ÁGUAS,0.175,cfoc,nanica
+2026-11-18,destino,PARAÍSO DAS ÁGUAS,0.018,cfoc,outras
+2026-11-18,destino,PARAÍSO DAS ÁGUAS,0.037,cfoc,prata
+2026-11-18,destino,PEDRALVA,10.0,cfo,nanica
+2026-11-18,destino,PETRÓPOLIS,1.5,cfo,nanica
+2026-11-18,destino,PIAU,5.0,cfo,nanica
+2026-11-18,destino,PIAU,15.0,cfoc,nanica
+2026-11-18,destino,PIEDADE,10.5,cfo,prata
+2026-11-18,destino,PRESIDENTE PRUDENTE,14.0,cfo,nanica
+2026-11-18,destino,QUIRINÓPOLIS,0.235,cfoc,nanica
+2026-11-18,destino,QUIRINÓPOLIS,0.321,cfoc,outras
+2026-11-18,destino,QUIRINÓPOLIS,0.344,cfoc,prata
+2026-11-18,destino,RIBEIRÃO DAS NEVES,21.6,cfo,prata
+2026-11-18,destino,RIBEIRÃO PRETO,23.856,cfo,nanica
+2026-11-18,destino,RIO DE JANEIRO,35.5,cfo,nanica
+2026-11-18,destino,RIO DE JANEIRO,140.7,cfo,prata
+2026-11-18,destino,RIO VERDE,0.095,cfoc,nanica
+2026-11-18,destino,RIO VERDE,0.055,cfoc,outras
+2026-11-18,destino,RIO VERDE,0.108,cfoc,prata
+2026-11-18,destino,SANTA BÁRBARA D'OESTE,13.2,cfo,nanica
+2026-11-18,destino,SANTA BÁRBARA D'OESTE,3.0,cfo,prata
+2026-11-18,destino,SANTO ANDRÉ,13.8,cfo,prata
+2026-11-18,destino,SANTO ANTÔNIO DO JARDIM,15.0,cfo,nanica
+2026-11-18,destino,SEROPÉDICA,20.0,cfo,prata
+2026-11-18,destino,SOROCABA,8.0,cfo,nanica
+2026-11-18,destino,SUZANO,11.488,cfo,prata
+2026-11-18,destino,SÃO BERNARDO DO CAMPO,21.0,cfo,nanica
+2026-11-18,destino,SÃO BERNARDO DO CAMPO,8.225,cfo,outras
+2026-11-18,destino,SÃO BERNARDO DO CAMPO,32.4,cfo,prata
+2026-11-18,destino,SÃO CAETANO DO SUL,12.15,cfo,prata
+2026-11-18,destino,SÃO GONÇALO,6.0,cfo,prata
+2026-11-18,destino,SÃO JOSÉ DO RIO PRETO,24.0,cfo,nanica
+2026-11-18,destino,SÃO JOSÉ DO RIO PRETO,13.0,cfoc,nanica
+2026-11-18,destino,SÃO JOSÉ DOS CAMPOS,6.65,cfo,prata
+2026-11-18,destino,SÃO JOSÉ DOS CAMPOS,8.0,cfoc,prata
+2026-11-18,destino,SÃO MATEUS,0.06,cfoc,prata
+2026-11-18,destino,SÃO PAULO,95.821,cfo,nanica
+2026-11-18,destino,SÃO PAULO,47.251,cfo,prata
+2026-11-18,destino,TABOÃO DA SERRA,15.0,cfo,nanica
+2026-11-18,destino,TATUÍ,16.0,cfo,nanica
+2026-11-18,destino,TAUBATÉ,15.3,cfoc,nanica
+2026-11-18,destino,TRÊS CORAÇÕES,15.0,cfo,prata
+2026-11-18,destino,TRÊS RIOS,0.915,cfo,nanica
+2026-11-18,destino,TRÊS RIOS,0.015,cfo,outras
+2026-11-18,destino,TRÊS RIOS,1.425,cfo,prata
+2026-11-18,destino,UBERLÂNDIA,15.064,cfo,nanica
+2026-11-18,destino,UBERLÂNDIA,12.0,cfo,outras
+2026-11-18,destino,VOLTA REDONDA,8.64,cfoc,prata
+2026-11-18,destino,VÁRZEA PAULISTA,27.6,cfo,nanica
+2026-11-18,origem,ANDRADAS,1.44,cfoc,prata
+2026-11-18,origem,ARAÇUAÍ,0.4,cfo,outras
+2026-11-18,origem,ARAÇUAÍ,95.8,cfo,prata
+2026-11-18,origem,ARCOS,9.45,cfoc,prata
+2026-11-18,origem,BOM JESUS DO AMPARO,15.0,cfo,nanica
+2026-11-18,origem,BRAZÓPOLIS,10.8,cfo,nanica
+2026-11-18,origem,BRAZÓPOLIS,95.0,cfo,prata
+2026-11-18,origem,BRAZÓPOLIS,19.0,cfoc,prata
+2026-11-18,origem,CANÁPOLIS,12.0,cfo,outras
+2026-11-18,origem,CAPITÃO ENÉAS,25.5,cfo,nanica
+2026-11-18,origem,CAPITÃO ENÉAS,30.0,cfo,prata
+2026-11-18,origem,CARANGOLA,7.0,cfo,nanica
+2026-11-18,origem,CARANGOLA,13.0,cfoc,nanica
+2026-11-18,origem,COLUNA,17.2,cfo,prata
+2026-11-18,origem,CONTAGEM,21.0,cfoc,nanica
+2026-11-18,origem,CONTAGEM,20.5,cfoc,prata
+2026-11-18,origem,CORINTO,23.1,cfo,prata
+2026-11-18,origem,CRISTINA,15.0,cfo,prata
+2026-11-18,origem,CÁSSIA,10.5,cfo,prata
+2026-11-18,origem,DELFINÓPOLIS,8.225,cfo,outras
+2026-11-18,origem,DELFINÓPOLIS,120.838,cfo,prata
+2026-11-18,origem,ESPINOSA,25.0,cfo,prata
+2026-11-18,origem,INDIANÓPOLIS,60.0,cfo,prata
+2026-11-18,origem,IPATINGA,0.06,cfoc,prata
+2026-11-18,origem,ITACARAMBI,12.0,cfo,nanica
+2026-11-18,origem,JANAÚBA,54.145,cfo,nanica
+2026-11-18,origem,JANAÚBA,20.0,cfo,prata
+2026-11-18,origem,JANAÚBA,37.0,ptv,nanica
+2026-11-18,origem,JAÍBA,664.892,cfo,nanica
+2026-11-18,origem,JAÍBA,51.566,cfo,prata
+2026-11-18,origem,JAÍBA,13.2,cfoc,nanica
+2026-11-18,origem,JAÍBA,24.48,ptv,nanica
+2026-11-18,origem,JEQUITINHONHA,43.3,cfo,prata
+2026-11-18,origem,LASSANCE,15.064,cfo,nanica
+2026-11-18,origem,LASSANCE,58.95,cfo,prata
+2026-11-18,origem,MANGA,24.48,cfo,nanica
+2026-11-18,origem,MARILAC,12.3,cfo,nanica
+2026-11-18,origem,MARILAC,33.3,cfo,prata
+2026-11-18,origem,MATIAS CARDOSO,32.55,cfo,nanica
+2026-11-18,origem,MATIAS CARDOSO,5.05,cfo,prata
+2026-11-18,origem,MONTES CLAROS,36.3,cfo,nanica
+2026-11-18,origem,MONTES CLAROS,31.8,cfo,prata
+2026-11-18,origem,MONTES CLAROS,15.3,cfoc,nanica
+2026-11-18,origem,MONTES CLAROS,11.4,cfoc,prata
+2026-11-18,origem,NOVA PORTEIRINHA,80.12,cfo,prata
+2026-11-18,origem,NOVA UNIÃO,15.0,cfo,nanica
+2026-11-18,origem,PARAOPEBA,30.0,cfo,nanica
+2026-11-18,origem,PARAOPEBA,20.0,cfo,prata
+2026-11-18,origem,PEDRALVA,10.0,cfo,nanica
+2026-11-18,origem,PEDRALVA,10.0,cfoc,nanica
+2026-11-18,origem,PIAU,6.5,cfo,nanica
+2026-11-18,origem,PIAU,15.0,cfoc,nanica
+2026-11-18,origem,PIRAPORA,15.0,cfo,prata
+2026-11-18,origem,PIRAPORA,8.64,cfoc,prata
+2026-11-18,origem,SÃO FRANCISCO,37.58,cfo,prata
+2026-11-18,origem,SÃO JOÃO BATISTA DO GLÓRIA,6.88,cfo,nanica
+2026-11-18,origem,SÃO JOÃO BATISTA DO GLÓRIA,18.14,cfo,prata
+2026-11-18,origem,UBERLÂNDIA,0.32,cfo,prata
+2026-11-18,origem,UBERLÂNDIA,1.855,cfoc,nanica
+2026-11-18,origem,UBERLÂNDIA,1.533,cfoc,outras
+2026-11-18,origem,UBERLÂNDIA,2.172,cfoc,prata
+2026-11-18,origem,VERDELÂNDIA,78.19,cfo,nanica
+2026-11-18,origem,VERDELÂNDIA,2.265,cfo,outras
+2026-11-18,origem,VERDELÂNDIA,10.665,cfo,prata
+2026-11-18,origem,VÁRZEA DA PALMA,3.0,cfo,nanica
+2026-11-18,origem,VÁRZEA DA PALMA,5.8,cfo,prata
